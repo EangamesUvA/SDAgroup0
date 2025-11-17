@@ -29,6 +29,7 @@ git checkout main
 git pull
 git checkout -b <new_branch_name>
 ```
+If you want to copy all files from another branch exchange *main* for the branch name.
 
 ## Switching branch
 Use `git checkout <branch_name>` to go to another repository but first make sure that you don't have any uncommited changes (by trying to make a commit).
