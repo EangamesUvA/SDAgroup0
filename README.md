@@ -44,3 +44,13 @@ When adding stuff to code or working on one document with multiple people you sh
 When done with your section of code or feature, you should open up a pull request on the github website or message me that the branch is done, then I will merge the branch and you can go on with your work.
 
 **Never** commit and push to the main branch without explicit permission or knowledge of what might happen as merge conflicts on the main branch are not fun to work out (I did this before).
+
+# Python
+## Style guide
+For the style guide you can look at this: [Style guide](https://peps.python.org/pep-0008/),
+but the main things to worry about:
+1. Try to keep lines short (when possible no more than 80 characters wide).
+2. Try to remove unnecessary indentation by factoring out functions (I would do no more than 3 to 5 indentations).
+3. Keep function names informative but not too long (as that will conflict with point 1 easier).
+4. Make good variable names (no short names of only letters or two letters, exception is if a mathematical formula gives a name to that variable, use that instead)
+5. Use *snake_case* for function and variable names, *UPPER_CASE_SNAKE_CASE* for global variables, and *PascalCase* for class names (not the objects generated from it as those are variables).
