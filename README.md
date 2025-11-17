@@ -37,8 +37,10 @@ git add <file_name> # for new filenames
 git commit -m "commit message"
 git push
 ```
+Try to come up with a good commit message but small changes *can* use something like ".", also try to commit once in a while and not commit the whole feature at once.
 
 ## Which branch to use
 When adding stuff to code or working on one document with multiple people you should use your own branch (you could work together on the same branch but conflicts will be harder for code).
 When done with your section of code or feature, you should open up a pull request on the github website or message me that the branch is done, then I will merge the branch and you can go on with your work.
+
 **Never** commit and push to the main branch without explicit permission or knowledge of what might happen as merge conflicts on the main branch are not fun to work out (I did this before).
