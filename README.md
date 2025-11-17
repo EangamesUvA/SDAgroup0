@@ -1,4 +1,7 @@
 # Git help instructions
+## Git crash course
+For more info about git and some background information look at this: [Git crash course](https://gist.github.com/brandon1024/14b5f9fcfd982658d01811ee3045ff1e)
+
 ## Git installation
 Go to [Git Install](https://git-scm.com/install/) and make sure you have git installed.
 
@@ -44,6 +47,9 @@ When adding stuff to code or working on one document with multiple people you sh
 When done with your section of code or feature, you should open up a pull request on the github website or message me that the branch is done, then I will merge the branch and you can go on with your work.
 
 **Never** commit and push to the main branch without explicit permission or knowledge of what might happen as merge conflicts on the main branch are not fun to work out (I did this before).
+
+## Branch information
+Use `git branch` to show all active branches and `git branch -a` to show all active and remote branches. This also shows the current branch with a '*' before it.
 
 # Python
 ## Style guide
