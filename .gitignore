@@ -1,0 +1,27 @@
+# Ignore files without extension (except makefile)
+*
+!*.*
+!*/
+!Makefile
+
+# Godot 4+ specific ignores
+*/.godot/
+*/android/
+
+# Ignore python files/directories
+*/__pycache__/*
+*/.ipynb_checkpoints/*
+
+# Ignore build and temporary files
+*.o
+*.swp
+*.bak
+
+# Ignore miscellanious
+*.blend1
+*.pdf
+*.out
+*.DS_Store
+/.direnv
+/.vscode
+*~
