@@ -1,8 +1,26 @@
 # Running the project
-Run file `python filename.py` or `python3 filename.py` and if necessary it will automatically install all required pip packages (using `requirements.txt` and `requirements.py`).
+Run file `python filename.py` or `python3 filename.py`.
+
+## Requirements
+This project automatically updates the `requirements.txt` using `pipreqs` when running any python file.
+Then it will automatically use this `requirements.txt` to update and install all needed pip packages.
 
 ## Testing
 To run all tests `pytest` or to run a specific test `pytest [filename]`.
+
+# Python
+## Style guide
+For the style guide you can look at this: [Style guide](https://peps.python.org/pep-0008/),
+but the main things to worry about:
+1. Try to keep lines short (when possible no more than 80 characters wide).
+2. Try to remove unnecessary indentation by factoring out functions (I would do no more than 3 to 5 indentations).
+3. Keep function names informative but not too long (as that will conflict with point 1 easier).
+4. Make good variable names (no short names of only letters or two letters, exception is if a mathematical formula gives a name to that variable, use that instead)
+5. Use *snake_case* for function and variable names, *UPPER_CASE_SNAKE_CASE* for global variables, and *PascalCase* for class names (not the objects generated from it as those are variables).
+
+## Project structure
+At the top of all python files put: `from requirements import *`.
+When needing a new packages think about if it's needed a lot in the code (more files need it), if so, you could add it to `requirements.py`.
 
 # Git help instructions
 ## Git crash course
@@ -57,13 +75,3 @@ When done with your section of code or feature, you should open up a pull reques
 
 ## Branch information
 Use `git branch` to show all active branches and `git branch -a` to show all active and remote branches. This also shows the current branch with a '*' before it.
-
-# Python
-## Style guide
-For the style guide you can look at this: [Style guide](https://peps.python.org/pep-0008/),
-but the main things to worry about:
-1. Try to keep lines short (when possible no more than 80 characters wide).
-2. Try to remove unnecessary indentation by factoring out functions (I would do no more than 3 to 5 indentations).
-3. Keep function names informative but not too long (as that will conflict with point 1 easier).
-4. Make good variable names (no short names of only letters or two letters, exception is if a mathematical formula gives a name to that variable, use that instead)
-5. Use *snake_case* for function and variable names, *UPPER_CASE_SNAKE_CASE* for global variables, and *PascalCase* for class names (not the objects generated from it as those are variables).
