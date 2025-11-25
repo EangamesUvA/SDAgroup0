@@ -6,7 +6,7 @@ This project automatically updates the `requirements.txt` using `pipreqs` when r
 Then it will automatically use this `requirements.txt` to update and install all needed pip packages.
 
 ## Testing
-To run all tests `pytest` or to run a specific test `pytest [filename]`.
+To run all tests `pytest` or to run a specific test `pytest filename.py`.
 
 ## Used packages
 - `pipreqs` to automatically generate required packages.
