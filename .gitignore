@@ -10,6 +10,9 @@
 
 # Ignore python files/directories
 */__pycache__/*
+__pycache__/*
+*/.pytest_cache/*
+.pytest_cache/
 */.ipynb_checkpoints/*
 
 # Ignore build and temporary files
