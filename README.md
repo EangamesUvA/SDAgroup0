@@ -8,6 +8,11 @@ Then it will automatically use this `requirements.txt` to update and install all
 ## Testing
 To run all tests `pytest` or to run a specific test `pytest [filename]`.
 
+## Used packages
+- `pipreqs` to automatically generate required packages.
+- `pytest` to automatically test our code (using our own tests).
+- `numpy` (a.k.a. `np`) for basic statistical analysis and performance.
+
 # Python
 ## Style guide
 For the style guide you can look at this: [Style guide](https://peps.python.org/pep-0008/),
