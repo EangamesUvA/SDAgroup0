@@ -7,6 +7,7 @@ Then it will automatically use this `requirements.txt` to update and install all
 
 ## Testing
 To run all tests `pytest` or to run a specific test `pytest filename.py`.
+When pushing to main all tests are completed using `pytest` to check if the version pushed is stable.
 
 ## Used packages
 - `pipreqs` to automatically generate required packages.
