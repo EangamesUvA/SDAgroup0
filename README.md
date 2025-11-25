@@ -1,3 +1,6 @@
+# Running the project
+Run file `*.py` and if necessary it will automatically install all required pip packages (using `requirements.txt` and `requirements.py`) 
+
 # Git help instructions
 ## Git crash course
 For more info about git and some background information look at this: [Git crash course](https://gist.github.com/brandon1024/14b5f9fcfd982658d01811ee3045ff1e)
