@@ -1,5 +1,8 @@
 # Running the project
-Run file `*.py` and if necessary it will automatically install all required pip packages (using `requirements.txt` and `requirements.py`) 
+Run file `*.py` and if necessary it will automatically install all required pip packages (using `requirements.txt` and `requirements.py`).
+
+## Testing
+To run all tests `pytest` or to run a specific test `pytest [filename]`.
 
 # Git help instructions
 ## Git crash course
