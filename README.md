@@ -12,6 +12,7 @@ When pushing to main all tests are completed using `pytest` to check if the vers
 ## Used packages
 - `pipreqs` to automatically generate required packages.
 - `pytest` to automatically test our code (using our own tests).
+- `pycodestyle` as automatic style checker which runs with `pycodestyle *.py`.
 - `numpy` (a.k.a. `np`) for basic statistical analysis and performance.
 
 # Python
