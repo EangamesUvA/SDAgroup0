@@ -1,0 +1,2494 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <style>
+        html {
+            max-width: 70ch;
+            /* larger spacing on larger screens, very small spacing on tiny screens */
+            padding: calc(1vmin + .5rem);
+            /* shorthand for margin-left/margin-right */
+            margin-inline: auto;
+            /* fluid sizing: https://frontaid.io/blog/fluid-typography-2d-css-locks-clamp/ */
+            font-size: clamp(1em, 0.909em + 0.45vmin, 1.25em);
+            /* use system font stack: https://developer.mozilla.org/en-US/docs/Web/CSS/font-family */
+            font-family: system-ui;
+            --font-size-x-small: 0.8rem;
+            --font-size-small: 1rem;
+            --font-size-medium: 1.3rem;
+            --font-size-large: 1.65rem;
+            --font-size-x-large: 2.4rem;
+            --space-xx-small: 0.25rem;
+            --space-x-small: 0.5rem;
+            --space-small: 1rem;
+            --space-medium: 1.5rem;
+            --space-large: 3rem;
+            --space-x-large: 4rem;
+            --space-xx-large: 6rem;
+            --space-xxx-large: 8rem;
+            --divider-line: 1px dashed var(--color-light-gray);
+            --outline-width: 3px;
+        }
+
+        /* increase line-height for everything except headings */
+        body :not(:is(h1, h2, h3, h4, h5, h6)) {
+            line-height: 1.75;
+        }
+
+        /*
+        .var-header {
+            position: sticky;
+            top: 10px;
+        } */
+        .variable-meta-string {
+            margin-top: var(--space-small);
+            margin-bottom: 0;
+            font-size: var(--font-size-x-small);
+        }
+
+        .data-table {
+            margin-left: 0;
+            margin-bottom: 0;
+            margin-top: var(--space-small);
+            margin-left: var(--space-small);
+            font-size: var(--font-size-x-small);
+            display: block;
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .data-table table {
+            border-collapse: collapse;
+            font-size: var(--font-size-x-small);
+        }
+
+        .data-table thead {
+            border-bottom: 2px solid var(--color-black);
+            display: table-header-group;
+            vertical-align: middle;
+            border-color: inherit;
+        }
+
+        .data-table th {
+            padding-bottom: var(--space-x-small);
+            padding-right: var(--space-small);
+            padding-bottom: var(--space-xx-small);
+            padding-top: var(--space-xx-small);
+            text-align: left;
+        }
+
+    </style>
+    <title>
+        Codebook
+    </title>
+</head>
+
+
+
+
+
+<body>
+    <h1>
+        Codebook
+    </h1>
+    <h2>
+        
+        
+    
+    </h2>
+    
+        
+    <h3>ESS11 - integrated file, edition 4.0</h3>
+    
+        
+        
+        <p><a href="https://doi.org/10.21338/ess11e04_0" target=”_blank”>doi:10.21338/ess11e04_0</a></p>
+    
+        
+    
+
+    <h2>
+        Variables
+    </h2>
+    <ul class="toc-list">
+        
+        
+        <li>
+            <a href="#name">
+                <span>name</span>
+                
+                <span> - Title of dataset</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#essround">
+                <span>essround</span>
+                
+                <span> - ESS round</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#edition">
+                <span>edition</span>
+                
+                <span> - Edition</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#proddate">
+                <span>proddate</span>
+                
+                <span> - Production date</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#idno">
+                <span>idno</span>
+                
+                <span> - Respondent's identification number</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#cntry">
+                <span>cntry</span>
+                
+                <span> - Country</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#dweight">
+                <span>dweight</span>
+                
+                <span> - Design weight</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#pspwght">
+                <span>pspwght</span>
+                
+                <span> - Post-stratification weight including design weight</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#pweight">
+                <span>pweight</span>
+                
+                <span> - Population size weight (must be combined with dweight or pspwght)</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#anweight">
+                <span>anweight</span>
+                
+                <span> - Analysis weight</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#nwspol">
+                <span>nwspol</span>
+                
+                <span> - News about politics and current affairs, watching, reading or listening, in minutes</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#netusoft">
+                <span>netusoft</span>
+                
+                <span> - Internet use, how often</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#netustm">
+                <span>netustm</span>
+                
+                <span> - Internet use, how much time on typical day, in minutes</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#ppltrst">
+                <span>ppltrst</span>
+                
+                <span> - Most people can be trusted or you can't be too careful</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#pplfair">
+                <span>pplfair</span>
+                
+                <span> - Most people try to take advantage of you, or try to be fair</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#pplhlp">
+                <span>pplhlp</span>
+                
+                <span> - Most of the time people helpful or mostly looking out for themselves</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#gndr">
+                <span>gndr</span>
+                
+                <span> - Gender</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#edlvenl">
+                <span>edlvenl</span>
+                
+                <span> - Highest level of education, Netherlands</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#hinctnta">
+                <span>hinctnta</span>
+                
+                <span> - Household's total net income, all sources</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#edulvlfb">
+                <span>edulvlfb</span>
+                
+                <span> - Father's highest level of education</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#edulvlmb">
+                <span>edulvlmb</span>
+                
+                <span> - Mother's highest level of education</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#prob">
+                <span>prob</span>
+                
+                <span> - Sampling probability</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#stratum">
+                <span>stratum</span>
+                
+                <span> - Sampling stratum</span>
+                
+            </a>
+        </li>
+        
+        
+        <li>
+            <a href="#psu">
+                <span>psu</span>
+                
+                <span> - Primary sampling unit</span>
+                
+            </a>
+        </li>
+        
+
+    </ul>
+
+    
+    
+    <div>
+        <h3 id="name">name </h3>
+        
+            
+                <div>Title of dataset</div>
+            
+            
+            
+            
+            
+        
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="essround">essround </h3>
+        
+            
+                <div>ESS round</div>
+            
+            
+            
+            
+            
+        
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="edition">edition </h3>
+        
+            
+                <div>Edition</div>
+            
+            
+            
+            
+            
+        
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="proddate">proddate </h3>
+        
+            
+                <div>Production date</div>
+            
+            
+            
+            
+            
+        
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="idno">idno </h3>
+        
+            
+                <div>Respondent's identification number</div>
+            
+            
+            
+            
+            
+        
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="cntry">cntry </h3>
+        
+            
+                <div>Country</div>
+            
+            
+            
+            
+            
+        
+            <div class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+        Value
+    </th>
+                            <th>
+        Category
+    </th>
+                        </tr>
+                    </thead>
+                    <tbody class="codelist">
+                        
+                        
+                        <tr>
+                            <td class="nowrap">AL</td>
+                            
+                            <td>Albania</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">AT</td>
+                            
+                            <td>Austria</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">BE</td>
+                            
+                            <td>Belgium</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">BG</td>
+                            
+                            <td>Bulgaria</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">CH</td>
+                            
+                            <td>Switzerland</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">CY</td>
+                            
+                            <td>Cyprus</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">CZ</td>
+                            
+                            <td>Czechia</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">DE</td>
+                            
+                            <td>Germany</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">DK</td>
+                            
+                            <td>Denmark</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">EE</td>
+                            
+                            <td>Estonia</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">ES</td>
+                            
+                            <td>Spain</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">FI</td>
+                            
+                            <td>Finland</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">FR</td>
+                            
+                            <td>France</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">GB</td>
+                            
+                            <td>United Kingdom</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">GE</td>
+                            
+                            <td>Georgia</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">GR</td>
+                            
+                            <td>Greece</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">HR</td>
+                            
+                            <td>Croatia</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">HU</td>
+                            
+                            <td>Hungary</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">IE</td>
+                            
+                            <td>Ireland</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">IS</td>
+                            
+                            <td>Iceland</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">IL</td>
+                            
+                            <td>Israel</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">IT</td>
+                            
+                            <td>Italy</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">LT</td>
+                            
+                            <td>Lithuania</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">LU</td>
+                            
+                            <td>Luxembourg</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">LV</td>
+                            
+                            <td>Latvia</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">ME</td>
+                            
+                            <td>Montenegro</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">MK</td>
+                            
+                            <td>North Macedonia</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">NL</td>
+                            
+                            <td>Netherlands</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">NO</td>
+                            
+                            <td>Norway</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">PL</td>
+                            
+                            <td>Poland</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">PT</td>
+                            
+                            <td>Portugal</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">RO</td>
+                            
+                            <td>Romania</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">RS</td>
+                            
+                            <td>Serbia</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">RU</td>
+                            
+                            <td>Russian Federation</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">SE</td>
+                            
+                            <td>Sweden</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">SI</td>
+                            
+                            <td>Slovenia</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">SK</td>
+                            
+                            <td>Slovakia</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">TR</td>
+                            
+                            <td>Turkey</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">UA</td>
+                            
+                            <td>Ukraine</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">XK</td>
+                            
+                            <td>Kosovo</td>
+                            
+                        </tr>
+                        
+                        
+                    </tbody>
+
+                </table>
+                
+            </div>
+            
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="dweight">dweight </h3>
+        
+            
+                <div>Design weight</div>
+            
+            
+            
+            
+            
+        
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="pspwght">pspwght </h3>
+        
+            
+                <div>Post-stratification weight including design weight</div>
+            
+            
+            
+            
+            
+        
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="pweight">pweight </h3>
+        
+            
+                <div>Population size weight (must be combined with dweight or pspwght)</div>
+            
+            
+            
+            
+            
+        
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="anweight">anweight </h3>
+        
+            
+                <div>Analysis weight</div>
+            
+            
+            
+            
+            
+        
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="nwspol">nwspol </h3>
+        
+            
+                <div>News about politics and current affairs, watching, reading or listening, in minutes</div>
+            
+            
+                <div class="variable-meta-string"> ASK ALL</div>
+            
+            
+                <div class="variable-meta-string"> On a typical day, about how much time do you spend watching, reading or listening to news about politics and current affairs?</div>
+            
+            
+                <div class="variable-meta-string"> Please give your answer in hours and minutes. 
+INTERVIEWER: If no time spent, enter 00 00. 
+TYPE IN DURATION</div>
+            
+            
+        
+            <div class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+        Value
+    </th>
+                            <th>
+        Category
+    </th>
+                        </tr>
+                    </thead>
+                    <tbody class="codelist">
+                        
+                        
+                        <tr>
+                            <td class="nowrap">7777</td>
+                            
+                            <td>Refusal*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">8888</td>
+                            
+                            <td>Don't know*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">9999</td>
+                            
+                            <td>No answer*</td>
+                            
+                        </tr>
+                        
+                        
+                    </tbody>
+
+                </table>
+                
+                <p>
+                    <span> *) 
+        Missing value
+     </span>
+                </p>
+                
+            </div>
+            
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="netusoft">netusoft </h3>
+        
+            
+                <div>Internet use, how often</div>
+            
+            
+                <div class="variable-meta-string"> CARD 1</div>
+            
+            
+                <div class="variable-meta-string"> People can use the internet on different devices such as computers, tablets and smartphones. How often do you use the internet on these or any other devices, whether for work or personal use?</div>
+            
+            
+            
+        
+            <div class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+        Value
+    </th>
+                            <th>
+        Category
+    </th>
+                        </tr>
+                    </thead>
+                    <tbody class="codelist">
+                        
+                        
+                        <tr>
+                            <td class="nowrap">1</td>
+                            
+                            <td>Never</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">2</td>
+                            
+                            <td>Only occasionally</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">3</td>
+                            
+                            <td>A few times a week</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">4</td>
+                            
+                            <td>Most days</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">5</td>
+                            
+                            <td>Every day</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">7</td>
+                            
+                            <td>Refusal*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">8</td>
+                            
+                            <td>Don't know*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">9</td>
+                            
+                            <td>No answer*</td>
+                            
+                        </tr>
+                        
+                        
+                    </tbody>
+
+                </table>
+                
+                <p>
+                    <span> *) 
+        Missing value
+     </span>
+                </p>
+                
+            </div>
+            
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="netustm">netustm </h3>
+        
+            
+                <div>Internet use, how much time on typical day, in minutes</div>
+            
+            
+                <div class="variable-meta-string"> ASK IF MOST DAYS OR EVERY DAY AT A2 (IF A2 = 4, 5)</div>
+            
+            
+                <div class="variable-meta-string"> On a typical day, about how much time do you spend using the internet on a computer, tablet, smartphone or other device, whether for work or personal use?</div>
+            
+            
+                <div class="variable-meta-string"> Please give your answer in hours and minutes. 
+INTERVIEWER: TYPE IN DURATION</div>
+            
+            
+        
+            <div class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+        Value
+    </th>
+                            <th>
+        Category
+    </th>
+                        </tr>
+                    </thead>
+                    <tbody class="codelist">
+                        
+                        
+                        <tr>
+                            <td class="nowrap">6666</td>
+                            
+                            <td>Not applicable*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">7777</td>
+                            
+                            <td>Refusal*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">8888</td>
+                            
+                            <td>Don't know*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">9999</td>
+                            
+                            <td>No answer*</td>
+                            
+                        </tr>
+                        
+                        
+                    </tbody>
+
+                </table>
+                
+                <p>
+                    <span> *) 
+        Missing value
+     </span>
+                </p>
+                
+            </div>
+            
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="ppltrst">ppltrst </h3>
+        
+            
+                <div>Most people can be trusted or you can't be too careful</div>
+            
+            
+                <div class="variable-meta-string"> ASK ALL 
+CARD 2</div>
+            
+            
+                <div class="variable-meta-string"> Using this card, generally speaking, would you say that most people can be trusted, or that you can't be too careful in dealing with people? Please tell me on a score of 0 to 10, where 0 means you can't be too careful and 10 means that most people can be trusted.</div>
+            
+            
+            
+        
+            <div class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+        Value
+    </th>
+                            <th>
+        Category
+    </th>
+                        </tr>
+                    </thead>
+                    <tbody class="codelist">
+                        
+                        
+                        <tr>
+                            <td class="nowrap">0</td>
+                            
+                            <td>You can't be too careful</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">1</td>
+                            
+                            <td>1</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">2</td>
+                            
+                            <td>2</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">3</td>
+                            
+                            <td>3</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">4</td>
+                            
+                            <td>4</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">5</td>
+                            
+                            <td>5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">6</td>
+                            
+                            <td>6</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">7</td>
+                            
+                            <td>7</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">8</td>
+                            
+                            <td>8</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">9</td>
+                            
+                            <td>9</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">10</td>
+                            
+                            <td>Most people can be trusted</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">77</td>
+                            
+                            <td>Refusal*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">88</td>
+                            
+                            <td>Don't know*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">99</td>
+                            
+                            <td>No answer*</td>
+                            
+                        </tr>
+                        
+                        
+                    </tbody>
+
+                </table>
+                
+                <p>
+                    <span> *) 
+        Missing value
+     </span>
+                </p>
+                
+            </div>
+            
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="pplfair">pplfair </h3>
+        
+            
+                <div>Most people try to take advantage of you, or try to be fair</div>
+            
+            
+                <div class="variable-meta-string"> CARD 3</div>
+            
+            
+                <div class="variable-meta-string"> Using this card, do you think that most people would try to take advantage of you if they got the chance, or would they try to be fair?</div>
+            
+            
+            
+        
+            <div class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+        Value
+    </th>
+                            <th>
+        Category
+    </th>
+                        </tr>
+                    </thead>
+                    <tbody class="codelist">
+                        
+                        
+                        <tr>
+                            <td class="nowrap">0</td>
+                            
+                            <td>Most people try to take advantage of me</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">1</td>
+                            
+                            <td>1</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">2</td>
+                            
+                            <td>2</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">3</td>
+                            
+                            <td>3</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">4</td>
+                            
+                            <td>4</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">5</td>
+                            
+                            <td>5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">6</td>
+                            
+                            <td>6</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">7</td>
+                            
+                            <td>7</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">8</td>
+                            
+                            <td>8</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">9</td>
+                            
+                            <td>9</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">10</td>
+                            
+                            <td>Most people try to be fair</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">77</td>
+                            
+                            <td>Refusal*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">88</td>
+                            
+                            <td>Don't know*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">99</td>
+                            
+                            <td>No answer*</td>
+                            
+                        </tr>
+                        
+                        
+                    </tbody>
+
+                </table>
+                
+                <p>
+                    <span> *) 
+        Missing value
+     </span>
+                </p>
+                
+            </div>
+            
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="pplhlp">pplhlp </h3>
+        
+            
+                <div>Most of the time people helpful or mostly looking out for themselves</div>
+            
+            
+                <div class="variable-meta-string"> CARD 4</div>
+            
+            
+                <div class="variable-meta-string"> Would you say that most of the time people try to be helpful or that they are mostly looking out for themselves?</div>
+            
+            
+                <div class="variable-meta-string"> Please use this card.</div>
+            
+            
+        
+            <div class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+        Value
+    </th>
+                            <th>
+        Category
+    </th>
+                        </tr>
+                    </thead>
+                    <tbody class="codelist">
+                        
+                        
+                        <tr>
+                            <td class="nowrap">0</td>
+                            
+                            <td>People mostly look out for themselves</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">1</td>
+                            
+                            <td>1</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">2</td>
+                            
+                            <td>2</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">3</td>
+                            
+                            <td>3</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">4</td>
+                            
+                            <td>4</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">5</td>
+                            
+                            <td>5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">6</td>
+                            
+                            <td>6</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">7</td>
+                            
+                            <td>7</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">8</td>
+                            
+                            <td>8</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">9</td>
+                            
+                            <td>9</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">10</td>
+                            
+                            <td>People mostly try to be helpful</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">77</td>
+                            
+                            <td>Refusal*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">88</td>
+                            
+                            <td>Don't know*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">99</td>
+                            
+                            <td>No answer*</td>
+                            
+                        </tr>
+                        
+                        
+                    </tbody>
+
+                </table>
+                
+                <p>
+                    <span> *) 
+        Missing value
+     </span>
+                </p>
+                
+            </div>
+            
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="gndr">gndr </h3>
+        
+            
+                <div>Gender</div>
+            
+            
+            
+                <div class="variable-meta-string"> CODE SEX, respondent</div>
+            
+            
+            
+        
+            <div class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+        Value
+    </th>
+                            <th>
+        Category
+    </th>
+                        </tr>
+                    </thead>
+                    <tbody class="codelist">
+                        
+                        
+                        <tr>
+                            <td class="nowrap">1</td>
+                            
+                            <td>Male</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">2</td>
+                            
+                            <td>Female</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">9</td>
+                            
+                            <td>No answer*</td>
+                            
+                        </tr>
+                        
+                        
+                    </tbody>
+
+                </table>
+                
+                <p>
+                    <span> *) 
+        Missing value
+     </span>
+                </p>
+                
+            </div>
+            
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="edlvenl">edlvenl </h3>
+        
+            
+                <div>Highest level of education, Netherlands</div>
+            
+            
+                <div class="variable-meta-string"> CARD 73</div>
+            
+            
+                <div class="variable-meta-string"> What is the highest level of education you have successfully completed? (Netherlands)</div>
+            
+            
+                <div class="variable-meta-string"> Please use this card.</div>
+            
+            
+        
+            <div class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+        Value
+    </th>
+                            <th>
+        Category
+    </th>
+                        </tr>
+                    </thead>
+                    <tbody class="codelist">
+                        
+                        
+                        <tr>
+                            <td class="nowrap">1</td>
+                            
+                            <td>Basisschool niet afgemaakt</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">2</td>
+                            
+                            <td>Alleen basisschool afgemaakt</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">3</td>
+                            
+                            <td>LBO, VBO, LEAO, LTS ambachtsschool, huishoudschool, LHNO, VMBO (niveaus 1-3; basisberoepsgericht, kaderberoepsgericht, g</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">4</td>
+                            
+                            <td>MULO, ULO, MAVO, VMBO (niveau 4; theoretische leerweg); HAVO jaar 3-4; VWO jaar 3-5 afgemaakt</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">5</td>
+                            
+                            <td>MBO niveau 1 afgemaakt (duur < 2 jaar)</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">6</td>
+                            
+                            <td>HAVO, MMS, MSVM afgemaakt</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">7</td>
+                            
+                            <td>VWO, HBS, atheneum, gymnasium afgemaakt</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">8</td>
+                            
+                            <td>KMBO, leerlingwezen, MEAO, MTS afgemaakt (duur 2-3 jaar)</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">9</td>
+                            
+                            <td>MBO niveau 2 en 3 afgemaakt (duur 2-3 jaar)</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">10</td>
+                            
+                            <td>MBO niveau 4 afgemaakt (duur 4 jaar)</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">11</td>
+                            
+                            <td>MBO-plus voor havisten</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">12</td>
+                            
+                            <td>propedeuse WO, OU-certificaat</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">13</td>
+                            
+                            <td>korte HBO-opleiding einddiploma (2 of 3 jaar)</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">14</td>
+                            
+                            <td>Bachelor HBO, kweekschool, PABO, conservatorium, MO-akten afgemaakt</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">15</td>
+                            
+                            <td>Bachelor universiteit afgemaakt</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">16</td>
+                            
+                            <td>HBO: Master's degree, tweede fase opleidingen; Post HBO-opleidingen, pre-master onderwijs voor HBO</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">17</td>
+                            
+                            <td>WO/universiteit: Master's degree, tweede fase opleidingen; ingenieur, meester, doctorandus</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">18</td>
+                            
+                            <td>Doctoraat / gepromoveerd</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">5555</td>
+                            
+                            <td>Other</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">7777</td>
+                            
+                            <td>Refusal*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">8888</td>
+                            
+                            <td>Don't know*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">9999</td>
+                            
+                            <td>No answer*</td>
+                            
+                        </tr>
+                        
+                        
+                    </tbody>
+
+                </table>
+                
+                <p>
+                    <span> *) 
+        Missing value
+     </span>
+                </p>
+                
+            </div>
+            
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="hinctnta">hinctnta </h3>
+        
+            
+                <div>Household's total net income, all sources</div>
+            
+            
+                <div class="variable-meta-string"> CARD 51</div>
+            
+            
+                <div class="variable-meta-string"> Using this card, please tell me which letter describes your household's total income, after tax and compulsory deductions, from all sources? If you don't know the exact figure, please give an estimate. Use the part of the card that you know best: weekly, monthly or annual income.</div>
+            
+            
+            
+        
+            <div class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+        Value
+    </th>
+                            <th>
+        Category
+    </th>
+                        </tr>
+                    </thead>
+                    <tbody class="codelist">
+                        
+                        
+                        <tr>
+                            <td class="nowrap">1</td>
+                            
+                            <td>J - 1st decile</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">2</td>
+                            
+                            <td>R - 2nd decile</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">3</td>
+                            
+                            <td>C - 3rd decile</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">4</td>
+                            
+                            <td>M - 4th decile</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">5</td>
+                            
+                            <td>F - 5th decile</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">6</td>
+                            
+                            <td>S - 6th decile</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">7</td>
+                            
+                            <td>K - 7th decile</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">8</td>
+                            
+                            <td>P - 8th decile</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">9</td>
+                            
+                            <td>D - 9th decile</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">10</td>
+                            
+                            <td>H - 10th decile</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">77</td>
+                            
+                            <td>Refusal*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">88</td>
+                            
+                            <td>Don't know*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">99</td>
+                            
+                            <td>No answer*</td>
+                            
+                        </tr>
+                        
+                        
+                    </tbody>
+
+                </table>
+                
+                <p>
+                    <span> *) 
+        Missing value
+     </span>
+                </p>
+                
+            </div>
+            
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="edulvlfb">edulvlfb </h3>
+        
+            
+                <div>Father's highest level of education</div>
+            
+            
+                <div class="variable-meta-string"> ASK ALL
+CARD 55</div>
+            
+            
+                <div class="variable-meta-string"> What is the highest level of education your father successfully completed?</div>
+            
+            
+                <div class="variable-meta-string"> Please use this card.</div>
+            
+            
+        
+            <div class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+        Value
+    </th>
+                            <th>
+        Category
+    </th>
+                        </tr>
+                    </thead>
+                    <tbody class="codelist">
+                        
+                        
+                        <tr>
+                            <td class="nowrap">0</td>
+                            
+                            <td>Not completed ISCED level 1</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">113</td>
+                            
+                            <td>ISCED 1, completed primary education</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">129</td>
+                            
+                            <td>Vocational ISCED 2C < 2 years, no access ISCED 3</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">212</td>
+                            
+                            <td>General/pre-vocational ISCED 2A/2B, access ISCED 3 vocational</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">213</td>
+                            
+                            <td>General ISCED 2A, access ISCED 3A general/all 3</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">221</td>
+                            
+                            <td>Vocational ISCED 2C >= 2 years, no access ISCED 3</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">222</td>
+                            
+                            <td>Vocational ISCED 2A/2B, access ISCED 3 vocational</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">223</td>
+                            
+                            <td>Vocational ISCED 2, access ISCED 3 general/all</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">229</td>
+                            
+                            <td>Vocational ISCED 3C < 2 years, no access ISCED 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">311</td>
+                            
+                            <td>General ISCED 3 >=2 years, no access ISCED 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">312</td>
+                            
+                            <td>General ISCED 3A/3B, access ISCED 5B/lower tier 5A</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">313</td>
+                            
+                            <td>General ISCED 3A, access upper tier ISCED 5A/all 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">321</td>
+                            
+                            <td>Vocational ISCED 3C >= 2 years, no access ISCED 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">322</td>
+                            
+                            <td>Vocational ISCED 3A, access ISCED 5B/ lower tier 5A</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">323</td>
+                            
+                            <td>Vocational ISCED 3A, access upper tier ISCED 5A/all 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">412</td>
+                            
+                            <td>General ISCED 4A/4B, access ISCED 5B/lower tier 5A</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">413</td>
+                            
+                            <td>General ISCED 4A, access upper tier ISCED 5A/all 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">421</td>
+                            
+                            <td>ISCED 4 programmes without access ISCED 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">422</td>
+                            
+                            <td>Vocational ISCED 4A/4B, access ISCED 5B/lower tier 5A</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">423</td>
+                            
+                            <td>Vocational ISCED 4A, access upper tier ISCED 5A/all 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">510</td>
+                            
+                            <td>ISCED 5A short, intermediate/academic/general tertiary below bachelor</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">520</td>
+                            
+                            <td>ISCED 5B short, advanced vocational qualifications</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">610</td>
+                            
+                            <td>ISCED 5A medium, bachelor/equivalent from lower tier tertiary</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">620</td>
+                            
+                            <td>ISCED 5A medium, bachelor/equivalent from upper/single tier tertiary</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">710</td>
+                            
+                            <td>ISCED 5A long, master/equivalent from lower tier tertiary</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">720</td>
+                            
+                            <td>ISCED 5A long, master/equivalent from upper/single tier tertiary</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">800</td>
+                            
+                            <td>ISCED 6, doctoral degree</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">5555</td>
+                            
+                            <td>Other</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">7777</td>
+                            
+                            <td>Refusal*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">8888</td>
+                            
+                            <td>Don't know*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">9999</td>
+                            
+                            <td>No answer*</td>
+                            
+                        </tr>
+                        
+                        
+                    </tbody>
+
+                </table>
+                
+                <p>
+                    <span> *) 
+        Missing value
+     </span>
+                </p>
+                
+            </div>
+            
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="edulvlmb">edulvlmb </h3>
+        
+            
+                <div>Mother's highest level of education</div>
+            
+            
+                <div class="variable-meta-string"> ASK ALL 
+CARD 57</div>
+            
+            
+                <div class="variable-meta-string"> What is the highest level of education your mother successfully completed?</div>
+            
+            
+                <div class="variable-meta-string"> Please use this card.</div>
+            
+            
+        
+            <div class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+        Value
+    </th>
+                            <th>
+        Category
+    </th>
+                        </tr>
+                    </thead>
+                    <tbody class="codelist">
+                        
+                        
+                        <tr>
+                            <td class="nowrap">0</td>
+                            
+                            <td>Not completed ISCED level 1</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">113</td>
+                            
+                            <td>ISCED 1, completed primary education</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">129</td>
+                            
+                            <td>Vocational ISCED 2C < 2 years, no access ISCED 3</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">212</td>
+                            
+                            <td>General/pre-vocational ISCED 2A/2B, access ISCED 3 vocational</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">213</td>
+                            
+                            <td>General ISCED 2A, access ISCED 3A general/all 3</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">221</td>
+                            
+                            <td>Vocational ISCED 2C >= 2 years, no access ISCED 3</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">222</td>
+                            
+                            <td>Vocational ISCED 2A/2B, access ISCED 3 vocational</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">223</td>
+                            
+                            <td>Vocational ISCED 2, access ISCED 3 general/all</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">229</td>
+                            
+                            <td>Vocational ISCED 3C < 2 years, no access ISCED 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">311</td>
+                            
+                            <td>General ISCED 3 >=2 years, no access ISCED 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">312</td>
+                            
+                            <td>General ISCED 3A/3B, access ISCED 5B/lower tier 5A</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">313</td>
+                            
+                            <td>General ISCED 3A, access upper tier ISCED 5A/all 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">321</td>
+                            
+                            <td>Vocational ISCED 3C >= 2 years, no access ISCED 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">322</td>
+                            
+                            <td>Vocational ISCED 3A, access ISCED 5B/ lower tier 5A</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">323</td>
+                            
+                            <td>Vocational ISCED 3A, access upper tier ISCED 5A/all 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">412</td>
+                            
+                            <td>General ISCED 4A/4B, access ISCED 5B/lower tier 5A</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">413</td>
+                            
+                            <td>General ISCED 4A, access upper tier ISCED 5A/all 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">421</td>
+                            
+                            <td>ISCED 4 programmes without access ISCED 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">422</td>
+                            
+                            <td>Vocational ISCED 4A/4B, access ISCED 5B/lower tier 5A</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">423</td>
+                            
+                            <td>Vocational ISCED 4A, access upper tier ISCED 5A/all 5</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">510</td>
+                            
+                            <td>ISCED 5A short, intermediate/academic/general tertiary below bachelor</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">520</td>
+                            
+                            <td>ISCED 5B short, advanced vocational qualifications</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">610</td>
+                            
+                            <td>ISCED 5A medium, bachelor/equivalent from lower tier tertiary</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">620</td>
+                            
+                            <td>ISCED 5A medium, bachelor/equivalent from upper/single tier tertiary</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">710</td>
+                            
+                            <td>ISCED 5A long, master/equivalent from lower tier tertiary</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">720</td>
+                            
+                            <td>ISCED 5A long, master/equivalent from upper/single tier tertiary</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">800</td>
+                            
+                            <td>ISCED 6, doctoral degree</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">5555</td>
+                            
+                            <td>Other</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">7777</td>
+                            
+                            <td>Refusal*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">8888</td>
+                            
+                            <td>Don't know*</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td class="nowrap">9999</td>
+                            
+                            <td>No answer*</td>
+                            
+                        </tr>
+                        
+                        
+                    </tbody>
+
+                </table>
+                
+                <p>
+                    <span> *) 
+        Missing value
+     </span>
+                </p>
+                
+            </div>
+            
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="prob">prob </h3>
+        
+            
+                <div>Sampling probability</div>
+            
+            
+            
+            
+            
+        
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="stratum">stratum </h3>
+        
+            
+                <div>Sampling stratum</div>
+            
+            
+            
+            
+            
+        
+        
+    </div>
+    
+    
+    <div>
+        <h3 id="psu">psu </h3>
+        
+            
+                <div>Primary sampling unit</div>
+            
+            
+            
+            
+            
+        
+        
+    </div>
+    
+</body>
+
+</html>
