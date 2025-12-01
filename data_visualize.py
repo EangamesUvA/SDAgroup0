@@ -43,6 +43,7 @@ mapping = {
     "edulvlmb" : 'Mothers highest level of education',
 }
 
+
 DATA_LABELS_MAP = []
 for label in DATA_LABELS:
     mapped_label = mapping.get(label,label)
