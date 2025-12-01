@@ -3,12 +3,12 @@
 import csv
 import numpy as np
 
-
 # Reading in a csv
 def read_csv(filename):
     with open(filename, newline='', encoding = 'utf-8') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
         lines = [row for row in spamreader]
+
         labels = lines[0]
         stripped_labels = []
         for line in labels:
@@ -43,8 +43,30 @@ mapping = {
     "edulvlmb" : 'Mothers highest level of education',
 }
 
-
 DATA_LABELS_MAP = []
 for label in DATA_LABELS:
     mapped_label = mapping.get(label,label)
     DATA_LABELS_MAP.append(mapped_label)
+
+def get_data(label_name):
+    """
+    returns all data for a specific label, use the original label name NOT the mapped one
+    """
+    index = DATA_LABELS.index(label_name)
+    data = [person[index] for person in DATASET]
+    return data
+
+news_minutes_day = get_data('nwspol')
+internet_use_freq = get_data('netusoft')
+internet_use_day_min = get_data('netustm')
+trust_people_general = get_data('ppltrst')
+people_take_advantage = get_data('pplfair')
+people_helpful = get_data('pplhlp')
+gender = get_data('gndr')
+highest_education = get_data('edlvenl')
+house_hold_income = get_data('hinctnta')
+fathers_education = get_data('edulvlfb')
+mothers_eduction = get_data('edulvlmb')
+
+
+
