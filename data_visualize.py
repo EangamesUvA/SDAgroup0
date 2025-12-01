@@ -56,6 +56,13 @@ def get_data(label_name):
     data = [person[index] for person in DATASET]
     return data
 
+def make_integer(data):
+    """
+    turns list of strings into integers
+    """
+    integer_data = [int(datapoint) for datapoint in data]
+    return integer_data
+
 news_minutes_day = get_data('nwspol')
 internet_use_freq = get_data('netusoft')
 internet_use_day_min = get_data('netustm')
@@ -67,6 +74,4 @@ highest_education = get_data('edlvenl')
 house_hold_income = get_data('hinctnta')
 fathers_education = get_data('edulvlfb')
 mothers_eduction = get_data('edulvlmb')
-
-
 
