@@ -2,6 +2,7 @@
 
 import csv
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Reading in a csv
 def read_csv(filename):
@@ -75,3 +76,48 @@ house_hold_income = get_data('hinctnta')
 fathers_education = get_data('edulvlfb')
 mothers_eduction = get_data('edulvlmb')
 
+plt.figure()
+plt.hist(make_integer(news_minutes_day))
+plt.title('news minutes/day')
+
+plt.figure()
+plt.hist(make_integer(internet_use_freq))
+plt.title('internet usage frequency')
+
+plt.figure()
+plt.hist(make_integer(internet_use_day_min))
+plt.title('internet usage day min')
+
+plt.figure()
+plt.hist(make_integer(trust_people_general))
+plt.title('trust people general')
+
+plt.figure()
+plt.hist(make_integer(people_take_advantage))
+plt.title('people take advantage')
+
+plt.figure()
+plt.hist(make_integer(people_helpful))
+plt.title('people are helpful')
+
+plt.figure()
+plt.hist(make_integer(gender))
+plt.title('gender')
+
+plt.figure()
+plt.hist(make_integer(highest_education))
+plt.title('highest education')
+
+plt.figure()
+plt.hist(make_integer(house_hold_income))
+plt.title('house hold income')
+
+plt.figure()
+plt.hist(make_integer(fathers_education))
+plt.title('fathers education')
+
+plt.figure()
+plt.hist(make_integer(mothers_eduction))
+plt.title('mothers education')
+
+plt.show()
