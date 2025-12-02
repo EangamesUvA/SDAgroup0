@@ -4,30 +4,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-# Reading in a csv
-def read_csv(filename):
-    with open(filename, newline='', encoding='utf-8') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
-        lines = [row for row in spamreader]
-
-        labels = lines[0]
-        stripped_labels = []
-        for line in labels:
-            stripped_line = line.strip('"')
-            stripped_labels.append(stripped_line)
-
-        data = lines[1:]
-        stripped_data = []
-        for line in data:
-            stripped_data_person = []
-            for point in line:
-                stripped_point = point.strip('"')
-                stripped_data_person.append(stripped_point)
-            stripped_data.append(stripped_data_person)
-
-    return stripped_labels, stripped_data
-
-
 DATA_FILENAME = "data/ESS11e04_0-subset.csv"
 df = pd.read_csv(DATA_FILENAME, quotechar='"')
 
