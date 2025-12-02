@@ -15,6 +15,8 @@ missing_codes = {
     'pplfair': [77, 88, 99],
     'pplhlp': [77, 88, 99],
     'gndr': [9],
+    'yrbrn': [7777, 8888, 9999],
+    'agea': [999],
     'edlvenl': [5555, 6666, 7777, 8888, 9999],
     'hinctnta': [77, 88, 99],
     'edlvfenl': [5555, 7777, 8888, 9999],
@@ -29,10 +31,12 @@ mapping = {
     "pplfair": 'most people try to take advantage of you, or try to be fair',
     "pplhlp": 'people try to be helpful or look out for themselves',
     "gndr": 'Gender/Sex',
+    "yrbrn": 'Year of birth',
+    "agea": 'Age of respondent, calculated',
     "edlvenl": 'Highest level education Netherlands',
     "hinctnta": 'Households total net income, all sources',
-    "edlvfenl": 'Fathers highest level of education',
-    "edlvmenl": 'Mothers highest level of education',
+    "edlvfenl": 'Fathers highest level of education, Netherlands',
+    "edlvmenl": 'Mothers highest level of education, Netherlands',
 }
 
 # Replace missing codes
