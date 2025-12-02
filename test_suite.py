@@ -4,26 +4,10 @@ import pytest
 import data_visualize_pandas as dvp
 
 
-# Data that can be used as argument to a test function
-@pytest.fixture
-def sample_data():
-    return np.array([1, 2, 3])
-
-
-# Data that can be used as argument to a test function
-@pytest.fixture
-def sample_output():
-    return np.array([4, 8, 12])
-
-
+# The dataset loaded in as fixture
 @pytest.fixture
 def dataset():
     return dvp.df_clean
-
-
-# Test function automatically used by pytest
-def test_test(sample_data, sample_output):
-    assert np.all([sample_data * 4, sample_output])
 
 
 # Testing if gender is close 50%

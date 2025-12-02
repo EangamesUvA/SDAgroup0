@@ -17,6 +17,7 @@ When pushing to main all tests are completed using `pytest` to check if the vers
 - `pandas` to extract and work with data.
 
 # Python
+The project is automatically tested using `python 3.13.3`.
 ## Style guide
 For the style guide you can look at this: [Style guide](https://peps.python.org/pep-0008/),
 but the main things to worry about:
