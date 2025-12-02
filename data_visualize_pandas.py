@@ -109,6 +109,7 @@ numeric_cols = list(mapping.keys()) + \
         ['father_education_ordinal', 'mother_education_ordinal']
 df_clean[numeric_cols] = df_clean[numeric_cols].astype(int)
 
+
 # Plot bar charts
 def show_plots():
     for col in numeric_cols:
@@ -119,6 +120,7 @@ def show_plots():
         plt.ylabel('Count')
 
     plt.show()
+
 
 if __name__ == "__main__":
     show_plots()
