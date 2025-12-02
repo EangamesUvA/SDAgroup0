@@ -1,6 +1,3 @@
-# Install required pip packages
-from requirements import *
-
 # Packages
 import numpy as np
 import pytest

@@ -2,7 +2,7 @@
 Run file `python filename.py` or `python3 filename.py`.
 
 ## Requirements
-This project automatically updates the `requirements.txt` using `pipreqs` when running any python file.
+To check the requirements use this command: `pip install pipreqs; pipreqs --force`, then to install the packages: `pip install -r requirements.txt`.
 Then it will automatically use this `requirements.txt` to update and install all needed pip packages.
 
 ## Testing
