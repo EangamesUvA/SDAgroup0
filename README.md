@@ -14,6 +14,7 @@ When pushing to main all tests are completed using `pytest` to check if the vers
 - `pytest` to automatically test our code (using our own tests).
 - `pycodestyle` as automatic style checker which runs with `pycodestyle *.py`.
 - `numpy` (a.k.a. `np`) for basic statistical analysis and performance.
+- `pandas` to extract and work with data.
 
 # Python
 ## Style guide
