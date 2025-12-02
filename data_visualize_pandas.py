@@ -110,14 +110,15 @@ numeric_cols = list(mapping.keys()) + \
 df_clean[numeric_cols] = df_clean[numeric_cols].astype(int)
 
 # Plot bar charts
-for col in numeric_cols:
-    plt.figure()
-    df_clean[col].value_counts().sort_index().plot(kind='bar')
-    plt.title(mapping.get(col, col))
-    plt.xlabel(mapping.get(col, col))
-    plt.ylabel('Count')
+def show_plots():
+    for col in numeric_cols:
+        plt.figure()
+        df_clean[col].value_counts().sort_index().plot(kind='bar')
+        plt.title(mapping.get(col, col))
+        plt.xlabel(mapping.get(col, col))
+        plt.ylabel('Count')
 
-plt.show()
+    plt.show()
 
-
-print(df_clean)
+if __name__ == "__main__":
+    show_plots()
