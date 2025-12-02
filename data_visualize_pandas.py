@@ -9,7 +9,6 @@ df = pd.read_csv(DATA_FILENAME, quotechar='"')
 
 missing_codes = {
     'nwspol': [7777, 8888, 9999],
-    'netusoft': [7, 8, 9],
     'netustm': [6666, 7777, 8888, 9999],
     'ppltrst': [77, 88, 99],
     'pplfair': [77, 88, 99],
@@ -25,7 +24,6 @@ missing_codes = {
 
 mapping = {
     "nwspol": 'News politics/current affairs minutes/day',
-    "netusoft": 'internet use how often',
     "netustm": 'internet use/day in minutes',
     "ppltrst": 'most people cant be trusted',
     "pplfair": 'most people try to take advantage of you, or try to be fair',
