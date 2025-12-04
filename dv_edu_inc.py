@@ -30,8 +30,8 @@ def use_L2_regressor(ddep_train, dindep_train, ddep, dindep):
     cross_val_scores_ridge = []
     Lambda = []
 
-    for i in range(1, 9):
-        Model = MODEL(alpha=i * 0.25, tol=0.0925)
+    for i in range(1, 20):
+        Model = MODEL(alpha=i * 0.1, tol=0.0925)
         Model.fit(ddep_train, dindep_train)
         scores = cross_val_score(Model, ddep, dindep, cv=10)
         avg_cross_val_score = np.mean(scores) * 100
