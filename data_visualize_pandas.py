@@ -2,6 +2,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
 
 
 DATA_FILENAME = "data/ESS11e04_0-subset.csv"
@@ -54,7 +55,41 @@ def show_plots():
         plt.xlabel(mapping.get(col, col))
         plt.ylabel('Count')
 
-    plt.show()
+    #plt.show()
+
+
+plt.figure()
+sns.violinplot(x='ppltrst',y= 'nwspol', data=df_clean, inner = 'quartile')
+plt.xlabel('people cant be trusted')
+plt.ylabel('news/current affairs minutes/day')
+
+plt.figure()
+sns.violinplot(x='pplfair', y = 'nwspol', inner = 'quartile', data= df_clean)
+plt.xlabel('people try to take advantage of you')
+plt.ylabel('news/current affairs minutes/day')
+
+plt.figure()
+sns.violinplot(x = 'pplhlp', y = 'nwspol', inner = 'quartile', data = df_clean)
+plt.xlabel('people try to be helpfull or look out for themselves')
+plt.ylabel('news/current affairs minutes/day')
+
+plt.figure()
+sns.violinplot(x = 'ppltrst', y = 'netustm', inner = 'quartile', data=df_clean)
+plt.xlabel('people cant be trusted')
+plt.ylabel('internet usage minutes/day')
+
+plt.figure()
+sns.violinplot(x='pplfair', y = 'netustm', inner = 'quartile', data= df_clean)
+plt.xlabel('people try to take advantage of you')
+plt.ylabel('internet usage minutes/day')
+
+plt.figure()
+sns.violinplot(x = 'pplhlp', y = 'netustm', inner = 'quartile', data = df_clean)
+plt.xlabel('people try to be helpfull or look out for themselves')
+plt.ylabel('internet usage minutes/day')
+
+plt.show()
+
 
 
 if __name__ == "__main__":
