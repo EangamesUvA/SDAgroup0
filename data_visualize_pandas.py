@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-DATA_FILENAME = "data/ESS11e04_0-subset (1).csv"
+DATA_FILENAME = "data/ESS11e04_0-subset.csv"
 df = pd.read_csv(DATA_FILENAME, quotechar='"')
 
 missing_codes = {
@@ -102,17 +102,18 @@ def box_plots(var1_dict, var2_dict):
             plt.tight_layout()
     plt.show()
 
-box_plots(independent_var, dependent_var)
+if __name__ == "__main__":
+    box_plots(independent_var, dependent_var)
 
-import seaborn as sns
+    import seaborn as sns
 
-for indep, indep_label in independent_var.items():
-    for dep, dep_label in dependent_var.items():
-        plt.figure(figsize=(10,5))
-        sns.violinplot(x=df_clean[indep], y=df_clean[dep])
-        plt.title(f"{dep_label} by {indep_label}")
-        plt.xlabel(indep_label)
-        plt.ylabel(dep_label)
-        plt.xticks(rotation=45)
-        plt.tight_layout()
-        plt.show()
+    for indep, indep_label in independent_var.items():
+        for dep, dep_label in dependent_var.items():
+            plt.figure(figsize=(10,5))
+            sns.violinplot(x=df_clean[indep], y=df_clean[dep])
+            plt.title(f"{dep_label} by {indep_label}")
+            plt.xlabel(indep_label)
+            plt.ylabel(dep_label)
+            plt.xticks(rotation=45)
+            plt.tight_layout()
+            plt.show()
