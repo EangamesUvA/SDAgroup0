@@ -1,18 +1,18 @@
+import csv
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
 
 
-DATA_FILENAME = "data/ESS11e04_0-subset.csv"
+DATA_FILENAME = "data/ESS11e04_0-subset (1).csv"
 df = pd.read_csv(DATA_FILENAME, quotechar='"')
 
 missing_codes = {
     'nwspol': [7777, 8888, 9999],
     'netustm': [6666, 7777, 8888, 9999],
-    'ppltrst': [77, 88, 99],
-    'pplfair': [77, 88, 99],
-    'pplhlp': [77, 88, 99],
+    'trstplc': [77, 88, 99],
+    'trstplt': [77, 88, 99],
+    'vote':[9],
     'gndr': [9],
     'agea': [999],
     'edlvenl': [5555, 6666, 7777, 8888, 9999],
@@ -24,9 +24,9 @@ missing_codes = {
 mapping = {
     "nwspol": 'News politics/current affairs minutes/day',
     "netustm": 'internet use/day in minutes',
-    "ppltrst": 'most people cant be trusted',
-    "pplfair": 'most people try to take advantage of you, or try to be fair',
-    "pplhlp": 'people try to be helpful or look out for themselves',
+    "trstplc": 'trust in the police',
+    "trstplt": 'trust in politicians',
+    "vote": 'Voted in the last election',
     "gndr": 'Gender/Sex',
     "agea": 'Age of respondent, calculated',
     "edlvenl": 'Highest level education Netherlands',
@@ -53,43 +53,66 @@ def show_plots():
         plt.title(mapping.get(col, col))
         plt.xlabel(mapping.get(col, col))
         plt.ylabel('Count')
-
-    #plt.show()
-
-
-    plt.figure()
-    sns.boxplot(x='ppltrst',y= 'nwspol', data=df_clean)
-    plt.xlabel('people cant be trusted')
-    plt.ylabel('news/current affairs minutes/day')
-
-    plt.figure()
-    sns.boxplot(x='pplfair', y = 'nwspol', data= df_clean)
-    plt.xlabel('people try to take advantage of you')
-    plt.ylabel('news/current affairs minutes/day')
-
-    plt.figure()
-    sns.boxplot(x = 'pplhlp', y = 'nwspol', data = df_clean)
-    plt.xlabel('people try to be helpfull or look out for themselves')
-    plt.ylabel('news/current affairs minutes/day')
-
-    plt.figure()
-    sns.boxplot(x = 'ppltrst', y = 'netustm', data=df_clean)
-    plt.xlabel('people cant be trusted')
-    plt.ylabel('internet usage minutes/day')
-
-    plt.figure()
-    sns.boxplot(x='pplfair', y = 'netustm', data= df_clean)
-    plt.xlabel('people try to take advantage of you')
-    plt.ylabel('internet usage minutes/day')
-
-    plt.figure()
-    sns.boxplot(x = 'pplhlp', y = 'netustm', data = df_clean)
-    plt.xlabel('people try to be helpfull or look out for themselves')
-    plt.ylabel('internet usage minutes/day')
-
     plt.show()
 
 
+#------------------------------
+#Scatter Plots 
+#------------------------------
 
-if __name__ == "__main__":
-    show_plots()
+independent_var = {
+    "nwspol": 'News politics/current affairs minutes/day',
+    "netustm": 'internet use/day in minutes',
+    "vote": 'Voted in the last election',
+    "gndr": 'Gender/Sex',
+    "agea": 'Age of respondent, calculated',
+    "edlvenl": 'Highest level education Netherlands',
+    "hinctnta": 'Households total net income, all sources',
+    "edlvfenl": 'Fathers highest level of education, Netherlands',
+    "edlvmenl": 'Mothers highest level of education, Netherlands',
+}
+
+dependent_var = {
+    "trstplc": 'trust in the police',
+    "trstplt": 'trust in politicians',
+}
+
+def scatter_plot(var1_dict, var2_dict):
+    for var1, label1 in var1_dict.items():
+        for var2, label2 in var2_dict.items():
+            plt.figure()
+            plt.scatter(df_clean[var1], df_clean[var2])
+            plt.xlabel(label1)
+            plt.ylabel(label2)
+            plt.title(f"{label2} vs {label1}")
+            plt.grid(True)
+
+    plt.show()
+
+def box_plots(var1_dict, var2_dict):
+    for indep, indep_label in independent_var.items():
+        for dep, dep_label in dependent_var.items():
+            plt.figure(figsize=(10, 5))
+            df_clean.boxplot(column=dep, by=indep)
+            plt.title(f"{dep_label} by {indep_label}")
+            plt.suptitle("")  # remove default subtitle
+            plt.xlabel(indep_label)
+            plt.ylabel(dep_label)
+            plt.xticks(rotation=45)
+            plt.tight_layout()
+    plt.show()
+
+box_plots(independent_var, dependent_var)
+
+import seaborn as sns
+
+for indep, indep_label in independent_var.items():
+    for dep, dep_label in dependent_var.items():
+        plt.figure(figsize=(10,5))
+        sns.violinplot(x=df_clean[indep], y=df_clean[dep])
+        plt.title(f"{dep_label} by {indep_label}")
+        plt.xlabel(indep_label)
+        plt.ylabel(dep_label)
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        plt.show()
