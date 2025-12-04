@@ -59,32 +59,32 @@ def show_plots():
 
 
 plt.figure()
-sns.violinplot(x='ppltrst',y= 'nwspol', data=df_clean, inner = 'quartile')
+sns.boxplot(x='ppltrst',y= 'nwspol', data=df_clean)
 plt.xlabel('people cant be trusted')
 plt.ylabel('news/current affairs minutes/day')
 
 plt.figure()
-sns.violinplot(x='pplfair', y = 'nwspol', inner = 'quartile', data= df_clean)
+sns.boxplot(x='pplfair', y = 'nwspol', data= df_clean)
 plt.xlabel('people try to take advantage of you')
 plt.ylabel('news/current affairs minutes/day')
 
 plt.figure()
-sns.violinplot(x = 'pplhlp', y = 'nwspol', inner = 'quartile', data = df_clean)
+sns.boxplot(x = 'pplhlp', y = 'nwspol', data = df_clean)
 plt.xlabel('people try to be helpfull or look out for themselves')
 plt.ylabel('news/current affairs minutes/day')
 
 plt.figure()
-sns.violinplot(x = 'ppltrst', y = 'netustm', inner = 'quartile', data=df_clean)
+sns.boxplot(x = 'ppltrst', y = 'netustm', data=df_clean)
 plt.xlabel('people cant be trusted')
 plt.ylabel('internet usage minutes/day')
 
 plt.figure()
-sns.violinplot(x='pplfair', y = 'netustm', inner = 'quartile', data= df_clean)
+sns.boxplot(x='pplfair', y = 'netustm', data= df_clean)
 plt.xlabel('people try to take advantage of you')
 plt.ylabel('internet usage minutes/day')
 
 plt.figure()
-sns.violinplot(x = 'pplhlp', y = 'netustm', inner = 'quartile', data = df_clean)
+sns.boxplot(x = 'pplhlp', y = 'netustm', data = df_clean)
 plt.xlabel('people try to be helpfull or look out for themselves')
 plt.ylabel('internet usage minutes/day')
 
