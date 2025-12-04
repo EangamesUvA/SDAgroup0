@@ -1,127 +1,107 @@
-import csv
-import numpy as np
+from sklearn.linear_model import Ridge, Lasso, ElasticNet
+from sklearn.model_selection import train_test_split, cross_val_score
+import data_visualize_pandas as dvp
 import matplotlib.pyplot as plt
+import numpy as np
+
+dep_vars = [
+    "trstplc",
+    "trstplt",
+]
+
+indep_vars = [
+    "vote",
+    "nwspol",
+    "netustm",
+    "gndr",
+    "agea",
+    "edlvenl",
+    "hinctnta",
+    "edlvfenl",
+    "edlvmenl"
+]
+
+COMBS = [[], [], [], []]
+for i, indep_var in enumerate(indep_vars):
+    for j, dep_var in enumerate(dep_vars):
+        COMBS[0].append((dep_var, [indep_var]))
+        for indep_var2 in indep_vars[i:]:
+            COMBS[j+1].append((dep_var, [indep_var, indep_var2]))
 
 
-# Reading in a csv
-def read_csv(filename):
-    with open(filename, newline='', encoding='utf-8') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
-        lines = [row for row in spamreader]
-
-        labels = lines[0]
-        stripped_labels = []
-        for line in labels:
-            stripped_line = line.strip('"')
-            stripped_labels.append(stripped_line)
-
-        data = lines[1:]
-        stripped_data = []
-        for line in data:
-            stripped_data_person = []
-            for point in line:
-                stripped_point = point.strip('"')
-                stripped_data_person.append(stripped_point)
-            stripped_data.append(stripped_data_person)
-
-    return stripped_labels, stripped_data
+def show_bar(percentage):
+    amount_total = 50
+    complete = round(percentage * amount_total / 100)
+    print(" [" + "=" * complete + "-" * (amount_total - complete) + \
+            f"] {percentage}%   ", end="\r")
 
 
-DATA_FILENAME = "data/ESS11e04_0-subset.csv"
-DATA_LABELS, DATASET = read_csv(DATA_FILENAME)
-
-mapping = {
-    "nwspol": 'News politics/current affairs minutes/day',
-    "netusoft": 'internet use how often',
-    "netustm": 'internet use/day in minutes',
-    "ppltrst": 'most people cant be trusted',
-    "pplfair": 'most people try to take advantage of you, or try to be fair',
-    "pplhlp": 'people try to be helpful or look out for themselves',
-    "gndr": 'Gender/Sex',
-    "edlvenl": 'Highest level education Netherlands',
-    "hinctnta": 'Households total net income, all sources',
-    "edulvlfb": 'Fathers highest level of education',
-    "edulvlmb": 'Mothers highest level of education',
-}
-
-DATA_LABELS_MAP = []
-for label in DATA_LABELS:
-    mapped_label = mapping.get(label, label)
-    DATA_LABELS_MAP.append(mapped_label)
+def MODEL(alpha, tol):
+    return Ridge(alpha=alpha, tol=tol)
 
 
-def get_data(label_name):
-    """
-    returns all data for a specific label,
-    use the original label name NOT the mapped one
-    """
-    index = DATA_LABELS.index(label_name)
-    data = [person[index] for person in DATASET]
-    return data
+def use_L2_regressor(ddep_train, dindep_train, ddep, dindep):
+    ddep_train = np.array(ddep_train).reshape(-1, 1)
+    ddep = np.array(ddep).reshape(-1, 1)
+    dindep_train = np.array(dindep_train)
+    dindep = np.array(dindep)
+
+    cross_val_scores_ridge = []
+    Lambda = []
+
+    for i in range(1, 20):
+        Model = MODEL(alpha=i * 0.1, tol=0.0925)
+        Model.fit(ddep_train, dindep_train)
+        scores = cross_val_score(Model, ddep, dindep, cv=10)
+        avg_cross_val_score = np.mean(scores) * 100
+        cross_val_scores_ridge.append(avg_cross_val_score)
+        Lambda.append(i * 0.25)
+
+    l = max(Lambda)
+    ModelChosen = MODEL(alpha=l, tol=0.0925)
+    ModelChosen.fit(ddep_train, dindep_train)
+    return ModelChosen.score(ddep, dindep)
 
 
-def make_integer(data):
-    """
-    turns list of strings into integers
-    """
-    integer_data = [int(datapoint) for datapoint in data]
-    return integer_data
+def show_plots():
+    train_count = 300
+    for i, combs in enumerate(COMBS):
+        models = list(map(lambda x: str(x[0]) + "\n" + "/".join(x[1]), combs))
+        scores = dict(zip(map(lambda x: x[1][0], combs), [[] for _ in range(len(combs))]))
+        labels = []
+        done = 0
+        for (dep, indep) in combs:
+            ddep = dvp.df_clean[dep].to_numpy()
+            dindep = dvp.df_clean.loc[:, indep].to_numpy()
+            score = use_L2_regressor(
+                list(ddep[:train_count]), list(dindep[:train_count]),
+                list(ddep[train_count:]), list(dindep[train_count:])
+            )
+            scores[indep[0]].append(score)
+            if len(indep) > 1:
+                scores[indep[1]].append(score)
+            labels.append(f"{dep}\nvs\n{indep}")
+            done += 1
+            show_bar(round(done/len(combs)*100, 1))
+        if i == 0:
+            plt.bar(models, np.concatenate(np.array(list(scores.values()))))
+            plt.xlabel('L2 regression on different combos of dependent/independent variables')
+            plt.ylabel('Score')
+            plt.show()
+        else:
+            plt.figure(figsize=(6, 5))
+            score_matrix = list(scores.values())
+
+            im = plt.imshow(score_matrix, cmap="viridis", aspect="auto")
+            plt.colorbar(im)
+
+            plt.xticks(np.arange(len(indep_vars)), indep_vars, rotation=45, ha="right")
+            plt.yticks(np.arange(len(indep_vars)), indep_vars, rotation=45, ha="right")
+            plt.xlabel("Independent variable 1")
+            plt.ylabel("Independent variable 2")
+            plt.title(f"L2 regression on combination of 2 independent variables with {dep} dependent variable")
+            plt.show()
 
 
-news_minutes_day = get_data('nwspol')
-internet_use_freq = get_data('netusoft')
-internet_use_day_min = get_data('netustm')
-trust_people_general = get_data('ppltrst')
-people_take_advantage = get_data('pplfair')
-people_helpful = get_data('pplhlp')
-gender = get_data('gndr')
-highest_education = get_data('edlvenl')
-house_hold_income = get_data('hinctnta')
-fathers_education = get_data('edulvlfb')
-mothers_eduction = get_data('edulvlmb')
-
-plt.figure()
-plt.hist(make_integer(news_minutes_day))
-plt.title('news minutes/day')
-
-plt.figure()
-plt.hist(make_integer(internet_use_freq))
-plt.title('internet usage frequency')
-
-plt.figure()
-plt.hist(make_integer(internet_use_day_min))
-plt.title('internet usage day min')
-
-plt.figure()
-plt.hist(make_integer(trust_people_general))
-plt.title('trust people general')
-
-plt.figure()
-plt.hist(make_integer(people_take_advantage))
-plt.title('people take advantage')
-
-plt.figure()
-plt.hist(make_integer(people_helpful))
-plt.title('people are helpful')
-
-plt.figure()
-plt.hist(make_integer(gender))
-plt.title('gender')
-
-plt.figure()
-plt.hist(make_integer(highest_education))
-plt.title('highest education')
-
-plt.figure()
-plt.hist(make_integer(house_hold_income))
-plt.title('house hold income')
-
-plt.figure()
-plt.hist(make_integer(fathers_education))
-plt.title('fathers education')
-
-plt.figure()
-plt.hist(make_integer(mothers_eduction))
-plt.title('mothers education')
-
-plt.show()
+if __name__ == "__main__":
+    show_plots()
