@@ -4,18 +4,29 @@ import data_visualize_pandas as dvp
 import matplotlib.pyplot as plt
 import numpy as np
 
-COMBS = [
-    ("ppltrst", ["edlvenl"]),
-    ("pplfair", ["edlvenl"]),
-    ("pplhlp", ["edlvenl"]),
-    ("ppltrst", ["hinctnta"]),
-    ("pplfair", ["hinctnta"]),
-    ("pplhlp", ["hinctnta"]),
-    ("edlvenl", ["hinctnta"]),
-    ("ppltrst", ["edlvenl", "hinctnta"]),
-    ("pplfair", ["edlvenl", "hinctnta"]),
-    ("pplhlp", ["edlvenl", "hinctnta"]),
+dep_vars = [
+    "ppltrst",
+    "pplfair",
+    "pplhlp"
 ]
+
+indep_vars = [
+    "nwspol",
+    "netustm",
+    "gndr",
+    "agea",
+    "edlvenl",
+    "hinctnta",
+    "edlvfenl",
+    "edlvmenl"
+]
+
+COMBS = [[], [], [], []]
+for indep_var in indep_vars:
+    for i, dep_var in enumerate(dep_vars):
+        COMBS[0].append((dep_var, [indep_var]))
+        for indep_var2 in indep_vars:
+            COMBS[i+1].append((dep_var, [indep_var, indep_var2]))
 
 def MODEL(alpha, tol):
     return Ridge(alpha=alpha, tol=tol)
@@ -38,9 +49,6 @@ def use_L2_regressor(ddep_train, dindep_train, ddep, dindep):
         cross_val_scores_ridge.append(avg_cross_val_score)
         Lambda.append(i * 0.25)
 
-    for i in range(0, len(Lambda)):
-        print(str(Lambda[i]) + ' : ' + str(cross_val_scores_ridge[i]))
-
     l = max(Lambda)
     ModelChosen = MODEL(alpha=l, tol=0.0925)
     ModelChosen.fit(ddep_train, dindep_train)
@@ -49,19 +57,33 @@ def use_L2_regressor(ddep_train, dindep_train, ddep, dindep):
 
 def show_plots():
     train_count = 300
-    models = list(map(lambda x: str(x[0]) + "\n" + "/".join(x[1]), COMBS))
-    scores = []
-    for (dep, indep) in COMBS:
-        ddep = dvp.df_clean[dep].to_numpy()
-        dindep = dvp.df_clean.loc[:, indep].to_numpy()
-        scores.append(use_L2_regressor(
-            list(ddep[:train_count]), list(dindep[:train_count]),
-            list(ddep[train_count:]), list(dindep[train_count:])
-        ))
-    plt.bar(models, scores)
-    plt.xlabel('L2 regression on different combos of dependent/independent variables')
-    plt.ylabel('Score')
-    plt.show()
+    for i, combs in enumerate(COMBS):
+        models = list(map(lambda x: str(x[0]) + "\n" + "/".join(x[1]), combs))
+        scores = dict(zip(map(lambda x: x[1][0], combs), [[] for _ in range(len(combs))]))
+        labels = []
+        for (dep, indep) in combs:
+            ddep = dvp.df_clean[dep].to_numpy()
+            dindep = dvp.df_clean.loc[:, indep].to_numpy()
+            scores[indep[0]].append(use_L2_regressor(
+                list(ddep[:train_count]), list(dindep[:train_count]),
+                list(ddep[train_count:]), list(dindep[train_count:])
+            ))
+            labels.append(f"{dep}\nvs\n{indep}")
+            print(f"{dep}-{indep} combo done")
+        if i == 0:
+            plt.bar(models, np.concatenate(np.array(list(scores.values()))))
+        else:
+            plt.figure(figsize=(6, 5))
+            score_matrix = list(scores.values())
+
+            im = plt.imshow(score_matrix, cmap="viridis", aspect="auto")
+            plt.colorbar(im)
+
+            plt.xticks(np.arange(len(indep_vars)), indep_vars, rotation=45, ha="right")
+            plt.yticks(np.arange(len(indep_vars)), indep_vars, rotation=45, ha="right")
+        plt.xlabel('L2 regression on different combos of dependent/independent variables')
+        plt.ylabel('Score')
+        plt.show()
 
 
 if __name__ == "__main__":
