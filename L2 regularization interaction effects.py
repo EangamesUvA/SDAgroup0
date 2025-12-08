@@ -71,13 +71,13 @@ unique_pairs = list(combinations(list_independent_var,2))
 for pair in unique_pairs:
     df_clean[f'{pair[0]}_{pair[1]}_interaction'] = df_clean[f'{pair[0]}'] * df_clean[f'{pair[1]}']
 
-numeric_cols = list(mapping.keys())
+x_cols = list(independent_var.keys())
 interaction_cols = list(f'{pair[0]}_{pair[1]}_interaction' for pair in unique_pairs)
-all_cols = numeric_cols + interaction_cols
-df_clean[all_cols] = df_clean[all_cols].astype(float)
+all_x_cols = x_cols + interaction_cols
+df_clean[all_x_cols] = df_clean[all_x_cols].astype(float)
 
 # splits the data into training and testing data
-X_var_train, X_var_test, Y_var_train, Y_var_test = train_test_split(df_clean[all_cols],df_clean[dependent_var.keys()],test_size=0.3, random_state=42)
+X_var_train, X_var_test, Y_var_train, Y_var_test = train_test_split(df_clean[all_x_cols],df_clean[dependent_var.keys()],test_size=0.3, random_state=42)
 
 # scales the data so higher absolute numbers like income don't dominate the cost function
 scaler = StandardScaler()
