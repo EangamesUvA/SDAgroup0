@@ -3,6 +3,7 @@ from sklearn.linear_model import Ridge, Lasso, ElasticNet
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.preprocessing import LabelEncoder
+from sklearn.tree import plot_tree
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -206,7 +207,14 @@ def use_random_forest():
     plt.legend()
     plt.show()
 
+    tree_to_plot = regressor.estimators_[0]
+
+    plt.figure(figsize=(20, 10))
+    plot_tree(tree_to_plot, feature_names=DATASET.data.columns.tolist(), filled=True, rounded=True, fontsize=10)
+    plt.title("Decision Tree from Random Forest")
+    plt.show()
+
 
 if __name__ == "__main__":
-    # show_plots()
     use_random_forest()
+    show_plots()
