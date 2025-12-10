@@ -1,8 +1,83 @@
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import Ridge, Lasso, ElasticNet
+from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split, cross_val_score
-import data_visualize_pandas as dvp
+from sklearn.preprocessing import LabelEncoder
+from sklearn.tree import plot_tree
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+
+# -===========- #
+#   Filenames   #
+# -===========- #
+FN_DATASET = "data/ESS11e04_0-subset.csv"
+
+
+class Data:
+    missing_codes = {
+        'nwspol': [7777, 8888, 9999],
+        'netustm': [6666, 7777, 8888, 9999],
+        'trstplc': [77, 88, 99],
+        'trstplt': [77, 88, 99],
+        'vote':[9],
+        'gndr': [9],
+        'agea': [999],
+        'edlvenl': [5555, 6666, 7777, 8888, 9999],
+        'hinctnta': [77, 88, 99],
+        'edlvfenl': [5555, 7777, 8888, 9999],
+        'edlvmenl': [5555, 7777, 8888, 9999]
+    }
+
+    mapping = {
+        "nwspol": 'News politics/current affairs minutes/day',
+        "netustm": 'internet use/day in minutes',
+        "trstplc": 'trust in the police',
+        "trstplt": 'trust in politicians',
+        "vote": 'Voted in the last election',
+        "gndr": 'Gender/Sex',
+        "agea": 'Age of respondent, calculated',
+        "edlvenl": 'Highest level education Netherlands',
+        "hinctnta": 'Households total net income, all sources',
+        "edlvfenl": 'Fathers highest level of education, Netherlands',
+        "edlvmenl": 'Mothers highest level of education, Netherlands',
+    }
+
+    columns = list(mapping.keys())
+
+    def __init__(self, filename):
+        self.filename = filename
+        self.raw_data = pd.read_csv(filename, quotechar='"')
+        self.raw_data.replace(Data.missing_codes)
+
+        # Clean the data
+        self.data = self.raw_data.dropna(
+            subset=list(Data.missing_codes.keys())).copy()
+        self.data[Data.columns] = self.data[Data.columns].astype(int)
+
+    def get_columns(self, columns):
+        return self.data.loc[:, columns]
+
+    # -=====================================================- #
+    #   Variables:                                            #
+    #    - dependent: the dependent variables (columns)       #
+    #    - independent: the independent variables (columns)   #
+    #    - alpha=0.25: the percentage of training data        #
+    #   Return values:                                        #
+    #    - data_dep_train, data_indep_train,                  #
+    #      data_dep_test, data_indep_test                     #
+    # -=====================================================- #
+    def get_training_set(self, dependent, independent, alpha=0.75):
+        data_dep = self.get_columns(dependent).to_numpy()
+        data_indep = self.get_columns(independent).to_numpy()
+        len_dep = int(len(data_dep) * alpha)
+        len_indep = int(len(data_indep) * alpha)
+
+        return data_dep[:len_dep], data_indep[:len_indep], \
+            data_dep[len_dep:], data_indep[len_indep:]
+
+
+DATASET = Data(FN_DATASET)
 
 dep_vars = [
     "trstplc",
@@ -71,12 +146,7 @@ def show_plots():
         labels = []
         done = 0
         for (dep, indep) in combs:
-            ddep = dvp.df_clean[dep].to_numpy()
-            dindep = dvp.df_clean.loc[:, indep].to_numpy()
-            score = use_L2_regressor(
-                list(ddep[:train_count]), list(dindep[:train_count]),
-                list(ddep[train_count:]), list(dindep[train_count:])
-            )
+            score = use_L2_regressor(*DATASET.get_training_set(dep, indep))
             scores[indep[0]].append(score)
             if len(indep) > 1:
                 scores[indep[1]].append(score)
@@ -103,5 +173,48 @@ def show_plots():
             plt.show()
 
 
+def use_random_forest():
+    X = DATASET.get_columns(indep_vars + dep_vars).values
+    y = DATASET.get_columns(dep_vars).values
+    label_encoder = LabelEncoder()
+    x_categorical = DATASET.data.select_dtypes(include=['object']).apply(label_encoder.fit_transform)
+    x_numerical = DATASET.data.select_dtypes(exclude=['object']).values
+    x = pd.concat([pd.DataFrame(x_numerical), x_categorical], axis=1).values
+
+    regressor = RandomForestRegressor(n_estimators=10, random_state=0, oob_score=True)
+
+    regressor.fit(x, y)
+    
+    oob_score = regressor.oob_score_
+    print(f'Out-of-Bag Score: {oob_score}')
+
+    predictions = regressor.predict(x)
+
+    mse = mean_squared_error(y, predictions)
+    print(f'Mean Squared Error: {mse}')
+
+    r2 = r2_score(y, predictions)
+    print(f'R-squared: {r2}')
+
+    X_grid = np.arange(min(X[:, 0]), max(X[:, 0]), 0.01).reshape(-1, 1)
+
+    X_grid_full = np.zeros((X_grid.shape[0], x.shape[1]))
+    X_grid_full[:, 0] = X_grid[:, 0]
+
+    plt.scatter(X[:, 0], y[:, 0], color='blue', label="Actual Data")
+    plt.plot(X_grid[:, 0], regressor.predict(X_grid_full), color='green', label="Random Forest Prediction")  
+    plt.title("Random Forest Regression Results")
+    plt.legend()
+    plt.show()
+
+    tree_to_plot = regressor.estimators_[0]
+
+    plt.figure(figsize=(20, 10))
+    plot_tree(tree_to_plot, feature_names=DATASET.data.columns.tolist(), filled=True, rounded=True, fontsize=10)
+    plt.title("Decision Tree from Random Forest")
+    plt.show()
+
+
 if __name__ == "__main__":
+    use_random_forest()
     show_plots()
