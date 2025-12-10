@@ -110,3 +110,46 @@ print(f'the rmse is {rmse}, the r-squared is {r2}')
 
 
 
+
+
+
+
+
+
+
+
+#________________________________________________________________________________________
+# Haal de kolomnamen op. Dit zijn de functienamen van uw geschaalde trainingsgegevens.
+feature_names = all_x_cols
+
+# Haal de namen van de afhankelijke variabelen op
+target_names = list(dependent_var.keys())
+
+# --- Coëfficiënten printen ---
+print("\n## Coëfficiënten per afhankelijke variabele")
+print("---------------------------------------")
+
+for i, target in enumerate(target_names):
+    # Selecteer de coëfficiënten voor de huidige afhankelijke variabele (rij i)
+    coefficients = ridge_model.coef_[i]
+
+    # Maak een DataFrame voor betere leesbaarheid
+    coef_df = pd.DataFrame({
+        'Feature': feature_names,
+        f'Coëfficiënt voor {target}': coefficients
+    })
+
+    print(f"\n### Coëfficiënten voor '{mapping[target]}' ({target}):")
+    # Sorteer op absolute waarde van de coëfficiënt om de belangrijkste functies te tonen
+    coef_df[f'Coëfficiënt voor {target}'] = coef_df[f'Coëfficiënt voor {target}'].round(4)
+    print(coef_df.sort_values(by=f'Coëfficiënt voor {target}', key=abs, ascending=False).to_string(index=False))
+
+# --- Intercepten printen ---
+print("\n## Intercepten")
+print("---------------------------------------")
+
+for target, intercept in zip(target_names, ridge_model.intercept_):
+    print(f"Intercept voor '{mapping[target]}' ({target}): {intercept:.4f}")
+
+
+

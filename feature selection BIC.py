@@ -121,39 +121,6 @@ def plot_k_BIC(data_frame, x,y):
 
     return list_k, list_BIC, min_k, features_minimum
 
-def forward_selection_BIC(data_frame, x,y):
-    dict_BIC = {}
-    selected_features = []
-    remaining_features = x
-    current_best_BIC = np.inf
-    y_values = df_clean[y]
-
-    while remaining_features:
-        for feature in remaining_features:
-            test_feature = selected_features + [feature]
-            x_test = data_frame[test_feature]
-            model = LinearRegression()
-            model.fit(x_test,y_values)
-            y_pred = model.predict(x_test)
-
-            logL = log_likelihood(y_values,y_pred)
-            k = len(test_feature)
-            n = len(y_values)
-            BIC = calculate_BIC(k,n,logL)
-            dict_BIC[feature] = BIC
-
-        feature_min_BIC = min(dict_BIC, key = dict_BIC.get)
-        min_BIC_score = dict_BIC[feature_min_BIC]
-
-        if min_BIC_score < current_best_BIC:
-            remaining_features.remove(feature_min_BIC)
-            selected_features.append(feature_min_BIC)
-            current_best_BIC = min_BIC_score 
-        else:
-            break
-
-    return selected_features
-
 X = list_independent_var
 Y_police = 'trstplc'
 Y_politicians = 'trstplt'
@@ -161,13 +128,9 @@ data_frame = df_clean
 
 k_police, BIC_police, min_k_police, min_features_police= plot_k_BIC(data_frame,X,Y_police)
 k_politicians, BIC_politicians, min_k_politicians, min_features_politicians  = plot_k_BIC(data_frame,X,Y_politicians)
-features_selected_police = forward_selection_BIC(data_frame,X,Y_police)
-features_selected_politicians = forward_selection_BIC(data_frame,X,Y_politicians)
 
-print(f'the selected features 1 for police are {features_selected_police}')
-print(f'the selected features 2 for police are {min_features_police}')
-print(f'the selected features 1 for politicians are {features_selected_politicians}')
-print(f'the selected features 2 for politicians are{min_features_politicians}')
+print(f'the selected features for police are {min_features_police}')
+print(f'the selected features for politicians are{min_features_politicians}')
 
 plt.figure()
 plt.plot(k_police, BIC_police)
@@ -185,6 +148,38 @@ plt.ylabel('BIC')
 plt.title('BIC score for k features outcome trust in politicians')
 plt.legend()
 
+all_x_cols = min_features_police + min_features_politicians
+
+# splits the data into training and testing data
+X_var_train, X_var_test, Y_var_train, Y_var_test = train_test_split(df_clean[all_x_cols],df_clean[dependent_var.keys()],test_size=0.3, random_state=42)
+
+# scales the data so higher absolute numbers like income don't dominate the cost function
+scaler = StandardScaler()
+X_var_train_scaled = scaler.fit_transform(X_var_train)
+X_var_test_scaled = scaler.transform(X_var_test)
+
+# create multiple values for alpha (lambda) on different scales (log)
+alphas = np.logspace(-3,3,7)
+dict_alpha = {'alpha': alphas}
+
+# use a grid search to test different alpha's and see which one predicts the "unseen" data best
+grid = GridSearchCV(Ridge(), dict_alpha,scoring = 'neg_mean_squared_error', cv = 5, n_jobs=-1)
+
+grid.fit(X_var_train_scaled, Y_var_train)
+
+best_alpha = grid.best_params_['alpha']
+print(f' the best alpha is {best_alpha}')
+
+# training the model with the best alpha
+ridge_model = Ridge(alpha=best_alpha)
+ridge_model.fit(X_var_train_scaled, Y_var_train)
+
+# predicted Y based on unseen test X 
+Y_pred = ridge_model.predict(X_var_test_scaled)
+
+# evaluating performance of the model
+rmse = np.sqrt(mean_squared_error(Y_var_test, Y_pred))
+r2 = r2_score(Y_var_test,Y_pred)
+print(f'the rmse is {rmse}, the r-squared is {r2}')
+
 plt.show()
-
-
