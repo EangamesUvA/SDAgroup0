@@ -182,6 +182,7 @@ X_var_train, X_var_test, Y_var_train, Y_var_test = train_test_split(df_clean[all
 #scaler = StandardScaler()
 #X_var_train_scaled = scaler.fit_transform(X_var_train)
 #X_var_test_scaled = scaler.transform(X_var_test)
+
 #--------------------------------------
 # create interaction effects
 poly = PolynomialFeatures(degree=2, interaction_only=True, include_bias=False)
@@ -217,8 +218,12 @@ Y_pred = ridge_model.predict(X_var_test_scaled)
 rmse = np.sqrt(mean_squared_error(Y_var_test, Y_pred))
 r2 = r2_score(Y_var_test,Y_pred)
 print(f'the rmse is {rmse}, the r-squared is {r2}')
-print(len(df_clean))
+
+feature_names = poly.get_feature_names_out(all_x_cols)
+coefficients = ridge_model.coef_
+
+coef_df = pd.DataFrame({'coef': coefficients, 'feature': feature_names})
+print(coef_df)
 plt.show()
 
-print("Original features shape:", X_var_train.shape)
-print("With interactions:", X_var_train_inter.shape)
+
