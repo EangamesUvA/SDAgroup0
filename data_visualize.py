@@ -61,7 +61,7 @@ class Data:
     #    - data_dep_train, data_indep_train,                  #
     #      data_dep_test, data_indep_test                     #
     # -=====================================================- #
-    def get_training_set(self, dependent, independent, alpha=0.75):
+    def get_training_set(self, dependent: list[str], independent: list[str], alpha: float=0.75):
         data_dep = self.get_columns(dependent).to_numpy()
         data_indep = self.get_columns(independent).to_numpy()
         len_dep = int(len(data_dep) * alpha)
