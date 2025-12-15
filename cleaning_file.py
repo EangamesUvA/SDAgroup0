@@ -10,7 +10,7 @@ missing_codes = {
     'netustm': [6666, 7777, 8888, 9999],
     'trstplc': [77, 88, 99],
     'trstplt': [77, 88, 99],
-    'vote':[9],
+    'vote':[7,8, 9],
     'gndr': [9],
     'agea': [999],
     'edlvenl': [5555, 6666, 7777, 8888, 9999],
@@ -18,11 +18,7 @@ missing_codes = {
     'edlvfenl': [5555, 7777, 8888, 9999],
     'edlvmenl': [5555, 7777, 8888, 9999],
     'feethngr': [7,8,9],
-    'crmvct': [7,8,9],
-    'aesfdrk': [7,8,9],
     'polintr': [7,8,9],
-    'trplcnt': [7,8,9],
-    'trplcmw': [4,6,7,8,9],
     'stflife': [77,88,99],
     'stfeco': [77,88,99],
     'stfgov': [77,88,99],
@@ -46,6 +42,14 @@ mapping = {
     "hinctnta": 'Household net income',
     "edlvfenl": 'Father education level',
     "edlvmenl": 'Mother education level',
+    "feethngr": 'Feel part of same race or ethnic group as most people in country',
+    "polintr": 'How interested in politics',
+    "stflife": 'How satisfied with life as a whole',
+    "stfeco": 'How satisfied with present state of economy in country',
+    "stfgov": 'How satisfied with the national government',
+    "pplfair": 'Most people try to take advantage of you, or try to be fair',
+    "pplhlp": 'Most of the time people helpful or mostly looking out for themselves',
+    "ppltrst": "Most people can be trusted or you can't be too careful"
 }
 
 # ========================================
