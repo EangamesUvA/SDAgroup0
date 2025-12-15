@@ -1,7 +1,7 @@
 from cleaning_file import ESSDataCleaner, missing_codes, mapping
 import pandas as pd 
 import numpy as np
-from OLS_TESTING_FUNCTIONS import *
+from test_ols import *
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 
