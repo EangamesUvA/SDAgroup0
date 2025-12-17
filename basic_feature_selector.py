@@ -16,7 +16,7 @@ import itertools
 import pandas as pd
 import statsmodels.api as sm
 
-def naive_feature_selector(df, predictors, outcomes, p_threshold=0.05):
+def basic_feature_selector(df, predictors, outcomes, p_threshold=0.05):
     """
     Naive feature selector:
     - Creates all pairwise interactions among predictors efficiently
@@ -73,7 +73,7 @@ def naive_feature_selector(df, predictors, outcomes, p_threshold=0.05):
         # Fit final model with selected features
         final_model = sm.OLS(y, X_full[significant_features]).fit()
         
-        print(f"Outcome: {outcome} | Full model R²: {full_model.rsquared:.4f} | Naive-selected model R²: {final_model.rsquared:.4f}")
+        print(f"Outcome: {outcome} | Full model R²: {full_model.rsquared:.4f} | Basic feature-selector model R²: {final_model.rsquared:.4f}")
         
         results[outcome] = (significant_features, final_model)
     
@@ -83,19 +83,14 @@ def naive_feature_selector(df, predictors, outcomes, p_threshold=0.05):
 predictors = [
     'agea', 'hinctnta', 'edlvenl', 'edlvfenl', 'edlvmenl',
     'nwspol', 'netustm', 'vote', 'gndr', 'polintr',
-    'crmvct', 'feethngr', 'pplfair', 'ppltrst', 'pplhlp',
-    'stflife', 'stfeco', 'stfgov', 'aesfdrk', 'trplcnt', 'trplcmw'
+    'feethngr', 'pplfair', 'ppltrst', 'pplhlp',
+    'stflife', 'stfeco', 'stfgov'
 ]
-outcomes = ['trstplc', 'trstplt']
+outcomes = ['trstplt']
 
-results = naive_feature_selector(df_clean, predictors, outcomes)
+results = basic_feature_selector(df_clean, predictors, outcomes)
 
 # Access selected features and models for trstplt
 selected_features_trstplt, model_trstplt = results['trstplt']
 print("Selected features for trstplt:", selected_features_trstplt)
 print(model_trstplt.summary())
-
-# Access selected features and models for trstplc
-selected_features_trstplc, model_trstplc = results['trstplc']
-print("Selected features for trstplc:", selected_features_trstplc)
-print(model_trstplc.summary())
