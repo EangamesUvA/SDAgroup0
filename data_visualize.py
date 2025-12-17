@@ -1,127 +1,91 @@
-import csv
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+# -===========- #
+#   Filenames   #
+# -===========- #
+FN_DATASET = "data/ESS11e04_0-subset.csv"
 
 
-# Reading in a csv
-def read_csv(filename):
-    with open(filename, newline='', encoding='utf-8') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
-        lines = [row for row in spamreader]
+class Data:
+    missing_codes = {
+        'nwspol': [7777, 8888, 9999],
+        'netustm': [6666, 7777, 8888, 9999],
+        'trstplc': [77, 88, 99],
+        'trstplt': [77, 88, 99],
+        'vote':[9],
+        'gndr': [9],
+        'agea': [999],
+        'edlvenl': [5555, 6666, 7777, 8888, 9999],
+        'hinctnta': [77, 88, 99],
+        'edlvfenl': [5555, 7777, 8888, 9999],
+        'edlvmenl': [5555, 7777, 8888, 9999]
+    }
 
-        labels = lines[0]
-        stripped_labels = []
-        for line in labels:
-            stripped_line = line.strip('"')
-            stripped_labels.append(stripped_line)
+    mapping = {
+        "nwspol": 'News politics/current affairs minutes/day',
+        "netustm": 'internet use/day in minutes',
+        "trstplc": 'trust in the police',
+        "trstplt": 'trust in politicians',
+        "vote": 'Voted in the last election',
+        "gndr": 'Gender/Sex',
+        "agea": 'Age of respondent, calculated',
+        "edlvenl": 'Highest level education Netherlands',
+        "hinctnta": 'Households total net income, all sources',
+        "edlvfenl": 'Fathers highest level of education, Netherlands',
+        "edlvmenl": 'Mothers highest level of education, Netherlands',
+    }
 
-        data = lines[1:]
-        stripped_data = []
-        for line in data:
-            stripped_data_person = []
-            for point in line:
-                stripped_point = point.strip('"')
-                stripped_data_person.append(stripped_point)
-            stripped_data.append(stripped_data_person)
+    columns = list(mapping.keys())
 
-    return stripped_labels, stripped_data
+    def __init__(self, filename):
+        self.filename = filename
+        self.raw_data = pd.read_csv(filename, quotechar='"')
+        self.raw_data.replace(Data.missing_codes)
 
+        # Clean the data
+        self.data = self.raw_data.dropna(
+            subset=list(Data.missing_codes.keys())).copy()
+        self.data[Data.columns] = self.data[Data.columns].astype(int)
 
-DATA_FILENAME = "data/ESS11e04_0-subset.csv"
-DATA_LABELS, DATASET = read_csv(DATA_FILENAME)
+    def get_columns(self, columns):
+        return self.data.loc[:, columns]
 
-mapping = {
-    "nwspol": 'News politics/current affairs minutes/day',
-    "netusoft": 'internet use how often',
-    "netustm": 'internet use/day in minutes',
-    "ppltrst": 'most people cant be trusted',
-    "pplfair": 'most people try to take advantage of you, or try to be fair',
-    "pplhlp": 'people try to be helpful or look out for themselves',
-    "gndr": 'Gender/Sex',
-    "edlvenl": 'Highest level education Netherlands',
-    "hinctnta": 'Households total net income, all sources',
-    "edulvlfb": 'Fathers highest level of education',
-    "edulvlmb": 'Mothers highest level of education',
-}
+    # -=====================================================- #
+    #   Variables:                                            #
+    #    - dependent: the dependent variables (columns)       #
+    #    - independent: the independent variables (columns)   #
+    #    - alpha=0.25: the percentage of training data        #
+    #   Return values:                                        #
+    #    - data_dep_train, data_indep_train,                  #
+    #      data_dep_test, data_indep_test                     #
+    # -=====================================================- #
+    def get_training_set(self, dependent, independent, alpha=0.75):
+        data_dep = self.get_columns(dependent).to_numpy()
+        data_indep = self.get_columns(independent).to_numpy()
+        len_dep = int(len(data_dep) * alpha)
+        len_indep = int(len(data_indep) * alpha)
 
-DATA_LABELS_MAP = []
-for label in DATA_LABELS:
-    mapped_label = mapping.get(label, label)
-    DATA_LABELS_MAP.append(mapped_label)
-
-
-def get_data(label_name):
-    """
-    returns all data for a specific label,
-    use the original label name NOT the mapped one
-    """
-    index = DATA_LABELS.index(label_name)
-    data = [person[index] for person in DATASET]
-    return data
-
-
-def make_integer(data):
-    """
-    turns list of strings into integers
-    """
-    integer_data = [int(datapoint) for datapoint in data]
-    return integer_data
+        return data_dep[:len_dep], data_indep[:len_indep], \
+            data_dep[len_dep:], data_indep[len_indep:]
 
 
-news_minutes_day = get_data('nwspol')
-internet_use_freq = get_data('netusoft')
-internet_use_day_min = get_data('netustm')
-trust_people_general = get_data('ppltrst')
-people_take_advantage = get_data('pplfair')
-people_helpful = get_data('pplhlp')
-gender = get_data('gndr')
-highest_education = get_data('edlvenl')
-house_hold_income = get_data('hinctnta')
-fathers_education = get_data('edulvlfb')
-mothers_eduction = get_data('edulvlmb')
+DATASET = Data(FN_DATASET)
 
-plt.figure()
-plt.hist(make_integer(news_minutes_day))
-plt.title('news minutes/day')
+DEP_VARS = [
+    "trstplc",
+    "trstplt",
+]
 
-plt.figure()
-plt.hist(make_integer(internet_use_freq))
-plt.title('internet usage frequency')
-
-plt.figure()
-plt.hist(make_integer(internet_use_day_min))
-plt.title('internet usage day min')
-
-plt.figure()
-plt.hist(make_integer(trust_people_general))
-plt.title('trust people general')
-
-plt.figure()
-plt.hist(make_integer(people_take_advantage))
-plt.title('people take advantage')
-
-plt.figure()
-plt.hist(make_integer(people_helpful))
-plt.title('people are helpful')
-
-plt.figure()
-plt.hist(make_integer(gender))
-plt.title('gender')
-
-plt.figure()
-plt.hist(make_integer(highest_education))
-plt.title('highest education')
-
-plt.figure()
-plt.hist(make_integer(house_hold_income))
-plt.title('house hold income')
-
-plt.figure()
-plt.hist(make_integer(fathers_education))
-plt.title('fathers education')
-
-plt.figure()
-plt.hist(make_integer(mothers_eduction))
-plt.title('mothers education')
-
-plt.show()
+INDEP_VARS = [
+    "vote",
+    "nwspol",
+    "netustm",
+    "gndr",
+    "agea",
+    "edlvenl",
+    "hinctnta",
+    "edlvfenl",
+    "edlvmenl"
+]
