@@ -1,11 +1,11 @@
-from cleaning_file import ESSDataCleaner, missing_codes, mapping
+from dataset import *
 import pandas as pd 
 import numpy as np
 from test_ols import *
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 
-DATA_FILENAME = "data/all_var_set.csv"
+DATA_FILENAME = "data/allvariables.csv"
 
 # ========================================
 # 0. Load and clean data
