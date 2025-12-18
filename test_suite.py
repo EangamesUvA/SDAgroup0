@@ -1,13 +1,12 @@
-# Packages
+from dataset import *
 import numpy as np
 import pytest
-import data_visualize_pandas as dvp
 
 
 # The dataset loaded in as fixture
 @pytest.fixture
 def dataset():
-    return dvp.df_clean
+    return DATASET.data
 
 
 # Testing if gender is close 50%
