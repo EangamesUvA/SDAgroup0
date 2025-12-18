@@ -1,14 +1,27 @@
-from data_visualize import *
+from dataset import *
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+SELECTED_FEATURES = [
+    "stfgov",
+    "ppltrst_pplhlp_interaction",
+    "agea_polintr_interaction",
+    "agea_stfeco_interaction",
+    "vote_agea_interaction",
+    "stfeco_stfgov_interaction",
+    "vote_edlvenl_interaction"
+]
 
 
 class Generator:
-    def __init__(self) -> None:
-        self.X = DATASET.get_columns(INDEP_VARS)
-        self.y = DATASET.get_columns(DEP_VARS)
+    def __init__(self, indep_vars, dep_vars) -> None:
+        self.X = DATASET.get_columns(indep_vars)
+        self.y = DATASET.get_columns(dep_vars)
 
         self.numerical_cols = self.X.select_dtypes(
             exclude=['object']).columns.tolist()
@@ -32,7 +45,7 @@ class Generator:
             X_encoded[col] = LabelEncoder().fit_transform(X_encoded[col])
 
         self.x = X_encoded.values
-        self.y = self.y.values
+        self.y = self.y.squeeze()
         self.feature_names = X_encoded.columns.tolist()
 
 
@@ -121,7 +134,7 @@ def plot_feature_importance(data, regression):
 def plot_results(data, regression):
     plt.figure()
 
-    plt.scatter(data.X.values[:, 0], data.y[:, 0],
+    plt.scatter(data.X.values[:, 0], data.y,
                 color='blue', alpha=0.1, label="Actual Data")
     plt.plot(regression.X_grid[:, 0],
              regression.regressor.predict(regression.X_grid_full),
@@ -141,7 +154,7 @@ def show_plots(data, regression):
 
 
 def main():
-    data = Generator()
+    data = Generator(SELECTED_FEATURES, DEP_VAR)
 
     regression = Regressor(data)
 
