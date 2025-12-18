@@ -16,6 +16,7 @@ MISSING_CODES = {
     "edlvenl": [5555, 6666, 7777, 8888, 9999],
     "edlvfenl": [5555, 7777, 8888, 9999],
     "edlvmenl": [5555, 7777, 8888, 9999],
+    "feethngr": [7, 8, 9],
     "gndr": [9],
     "hinctnta": [77, 88, 99],
     "netustm": [6666, 7777, 8888, 9999],
@@ -27,6 +28,9 @@ MISSING_CODES = {
     "stfeco": [77, 88, 99],
     "stfgov": [77, 88, 99],
     "stflife": [77, 88, 99],
+    "trplcmw": [4, 6, 7 , 8, 9],
+    "trplcnt": [7, 8, 9],
+    "trstplc": [77, 88, 99],
     "trstplt": [77, 88, 99],
     "vote": [9],
 }
@@ -37,22 +41,25 @@ MISSING_CODES = {
 MAPPING = {
     "aesfdrk": "Feeling of safety of walking alone in local area after dark",
     "agea": "Age of respondent, calculated",
+    "crmvct": "Respondent or household member victim of burglary/assault last 5 years",
     "edlvenl": "Highest level education Netherlands",
     "edlvfenl": "Fathers highest level of education, Netherlands",
     "edlvmenl": "Mothers highest level of education, Netherlands",
-    "feethngr": "Feel part of same race or ethnic group " +
-                "as most people in country",
+    "feethngr": "Feel part of same race or ethnic group as most people in country",
     "gndr": "Gender/Sex",
     "hinctnta": "Households total net income, all sources",
     "netustm": "internet use/day in minutes",
     "nwspol": "News politics/current affairs minutes/day",
     "polintr": "How interested in politics ",
     "pplfair": "Most people are fair",
-    "pplhlp": "Most people are trying to help",
+    "pplhlp": "Most people are trying to help ",
     "ppltrst": "Most people can be trusted",
     "stfeco": "How satisfied with present state of economy in country",
     "stfgov": "How satisfied with the national government",
     "stflife": "How satisfied with life as a whole",
+    "trplcmw": "Unfairly treated by the police because being a man/woman",
+    "trplcnt": "How fair the police in [country] treat women/men",
+    "trstplc": "trust in the police",
     "trstplt": "trust in politicians",
     "vote": "Voted in the last election",
 }
@@ -173,7 +180,9 @@ class Data:
 DATASET = Data(FN_DATASET)
 
 INDEP_VAR = [
+    "aesfdrk",
     "agea",
+    "crmvct",
     "edlvenl",
     "edlvfenl",
     "edlvmenl",
@@ -189,7 +198,9 @@ INDEP_VAR = [
     "stfeco",
     "stfgov",
     "stflife",
-    "vote"
+    "trplcmw",
+    "trplcnt",
+    "vote",
 ]
 
 DEP_VAR = [
