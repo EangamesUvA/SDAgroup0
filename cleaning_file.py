@@ -10,56 +10,58 @@ missing_codes = {
     'netustm': [6666, 7777, 8888, 9999],
     'trstplc': [77, 88, 99],
     'trstplt': [77, 88, 99],
-    'vote':[7,8, 9],
+    'vote': [7, 8, 9],
     'gndr': [9],
     'agea': [999],
     'edlvenl': [5555, 6666, 7777, 8888, 9999],
     'hinctnta': [77, 88, 99],
     'edlvfenl': [5555, 7777, 8888, 9999],
     'edlvmenl': [5555, 7777, 8888, 9999],
-    'feethngr': [7,8,9],
-    'polintr': [7,8,9],
-    'stflife': [77,88,99],
-    'stfeco': [77,88,99],
-    'stfgov': [77,88,99],
-    'pplfair': [77,88,99],
-    'pplhlp': [77,88,99],
-    'ppltrst': [77,88,99]
+    'feethngr': [7, 8, 9],
+    'polintr': [7, 8, 9],
+    'stflife': [77, 88, 99],
+    'stfeco': [77, 88, 99],
+    'stfgov': [77, 88, 99],
+    'pplfair': [77, 88, 99],
+    'pplhlp': [77, 88, 99],
+    'ppltrst': [77, 88, 99]
 }
 
 # ========================================
 # Mapping Dictionary
 # ========================================
 mapping = {
-    "nwspol": 'News politics/current affairs minutes/day',
-    "netustm": 'Internet use/day in minutes',
-    "trstplc": 'Trust in the police',
-    "trstplt": 'Trust in politicians',
-    "vote": 'Voted in the last election',
-    "gndr": 'Gender/Sex',
-    "agea": 'Age of respondent',
-    "edlvenl": 'Highest level education Netherlands',
-    "hinctnta": 'Household net income',
-    "edlvfenl": 'Father education level',
-    "edlvmenl": 'Mother education level',
-    "feethngr": 'Feel part of same race or ethnic group as most people in country',
-    "polintr": 'How interested in politics',
-    "stflife": 'How satisfied with life as a whole',
-    "stfeco": 'How satisfied with present state of economy in country',
-    "stfgov": 'How satisfied with the national government',
-    "pplfair": 'Most people try to take advantage of you, or try to be fair',
-    "pplhlp": 'Most of the time people helpful or mostly looking out for themselves',
+    "nwspol": "News politics/current affairs minutes/day",
+    "netustm": "Internet use/day in minutes",
+    "trstplc": "Trust in the police",
+    "trstplt": "Trust in politicians",
+    "vote": "Voted in the last election",
+    "gndr": "Gender/Sex",
+    "agea": "Age of respondent",
+    "edlvenl": "Highest level education Netherlands",
+    "hinctnta": "Household net income",
+    "edlvfenl": "Father education level",
+    "edlvmenl": "Mother education level",
+    "feethngr": "Feel part of same race or ethnic group as most people in country",
+    "polintr": "How interested in politics",
+    "stflife": "How satisfied with life as a whole",
+    "stfeco": "How satisfied with present state of economy in country",
+    "stfgov": "How satisfied with the national government",
+    "pplfair": "Most people try to take advantage of you, or try to be fair",
+    "pplhlp": "Most of the time people helpful or mostly looking out for themselves",
     "ppltrst": "Most people can be trusted or you can't be too careful"
 }
 
 # ========================================
 # ESS Data Cleaner Class
 # ========================================
-class ESSDataCleaner: 
+class ESSDataCleaner:
     def __init__(self, filename, missing_codes_dict=None, mapping_dict=None):
         """Initialise the data cleaner."""
         self.filename = filename
-        self.missing_codes = missing_codes_dict if missing_codes_dict is not None else missing_codes
+        self.missing_codes = (
+            missing_codes_dict if missing_codes_dict is not None else missing_codes
+        )
         self.mapping = mapping_dict if mapping_dict is not None else mapping
         self.df = None
         self.df_clean = None
@@ -74,7 +76,9 @@ class ESSDataCleaner:
         if self.df is None:
             raise ValueError("Data not loaded yet. Call load_data() first.")
         if not isinstance(self.missing_codes, dict):
-            raise TypeError("missing_codes must be a dictionary of column:list_of_missing_codes")
+            raise TypeError(
+                "missing_codes must be a dictionary of column:list_of_missing_codes"
+            )
         self.df.replace(self.missing_codes, np.nan, inplace=True)
         return self.df
 
