@@ -75,7 +75,8 @@ def plot_qq(model, dep_var_name=None):
 
 def plot_resid_vs_fitted(model, dep_var_name=None):
     """
-    Plots residuals vs fitted values for an OLS model to check homoscedasticity.
+    Plots residuals vs fitted values
+    for an OLS model to check homoscedasticity.
 
     Parameters
     ----------

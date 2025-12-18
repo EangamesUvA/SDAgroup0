@@ -14,7 +14,6 @@ from itertools import combinations
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 
-
 print(DATASET.data.shape)
 
 unique_pairs = list(combinations(INDEP_VAR, 2))
@@ -31,12 +30,12 @@ DATASET.set_columns_to_float(all_x_cols)
 
 
 vif = VIF_check(DATASET.data, predictors=["stfgov",
-                                          "ppltrst_pplhlp_interaction",
+                                          "pplhlp_ppltrst_interaction",
                                           "agea_polintr_interaction",
                                           "agea_stfeco_interaction",
-                                          "vote_agea_interaction",
+                                          "agea_vote_interaction",
                                           "stfeco_stfgov_interaction",
-                                          "vote_edlvenl_interaction"
+                                          "edlvenl_vote_interaction"
                                           ])
 
 print(vif)

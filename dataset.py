@@ -28,7 +28,7 @@ MISSING_CODES = {
     "stfeco": [77, 88, 99],
     "stfgov": [77, 88, 99],
     "stflife": [77, 88, 99],
-    "trplcmw": [4, 6, 7 , 8, 9],
+    "trplcmw": [4, 6, 7, 8, 9],
     "trplcnt": [7, 8, 9],
     "trstplc": [77, 88, 99],
     "trstplt": [77, 88, 99],
@@ -41,11 +41,13 @@ MISSING_CODES = {
 MAPPING = {
     "aesfdrk": "Feeling of safety of walking alone in local area after dark",
     "agea": "Age of respondent, calculated",
-    "crmvct": "Respondent or household member victim of burglary/assault last 5 years",
+    "crmvct": "Respondent or household member " +
+              "victim of burglary/assault last 5 years",
     "edlvenl": "Highest level education Netherlands",
     "edlvfenl": "Fathers highest level of education, Netherlands",
     "edlvmenl": "Mothers highest level of education, Netherlands",
-    "feethngr": "Feel part of same race or ethnic group as most people in country",
+    "feethngr": "Feel part of same race or ethnic group " +
+                "as most people in country",
     "gndr": "Gender/Sex",
     "hinctnta": "Households total net income, all sources",
     "netustm": "internet use/day in minutes",
@@ -139,9 +141,6 @@ class Data:
 
         return df
 
-    def get_mult_2_columns(self, column1, column2):
-        return self.data[column1] * self.data[column2]
-
     def get_interaction_from_name(self, name):
         a, b, _ = name.split("_")
         return self.data[a] * self.data[b]
@@ -149,13 +148,14 @@ class Data:
     def set_column(self, column, value):
         self.data[column] = value
 
-    def set_columns_interaction(names):
-        values = get_columns(names)
-        for name, value in zip(names, values):
-            self.set_column(name, value)
+    def set_columns_interaction(self, names):
+        df = self.get_columns(names)
+        for name, series in df.items():
+            self.set_column(name, series)
 
     def set_columns_to_float(self, columns):
-        self.data[columns] = self.data[columns].astype(float)
+        for column in columns:
+            self.data[column] = self.data[column].astype(float)
 
     # -=====================================================- #
     #   Variables:                                            #

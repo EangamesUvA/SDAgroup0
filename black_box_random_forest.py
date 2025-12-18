@@ -9,12 +9,12 @@ import numpy as np
 
 SELECTED_FEATURES = [
     "stfgov",
-    "ppltrst_pplhlp_interaction",
+    "pplhlp_ppltrst_interaction",
     "agea_polintr_interaction",
     "agea_stfeco_interaction",
-    "vote_agea_interaction",
+    "agea_vote_interaction",
     "stfeco_stfgov_interaction",
-    "vote_edlvenl_interaction"
+    "edlvenl_vote_interaction"
 ]
 
 
@@ -162,5 +162,5 @@ def main(indep_vars, dep_vars):
 
 
 if __name__ == "__main__":
-    main(SELECETED_FEATURES, DEP_VAR)
+    main(SELECTED_FEATURES, DEP_VAR)
     main(INDEP_VAR, DEP_VAR)
