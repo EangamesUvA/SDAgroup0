@@ -120,6 +120,8 @@ class Data:
         self.data = cleaner.full_clean()
 
     def get_columns(self, columns):
+        if not isinstance(columns, list):
+            columns = list(columns)
         existing = [c for c in columns if c in self.data.columns]
         missing = [c for c in columns if c not in self.data.columns]
 

@@ -1,18 +1,9 @@
 from dataset import *
-import pandas as pd 
+import pandas as pd
 import numpy as np
 from test_ols import *
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
-
-DATA_FILENAME = "data/allvariables.csv"
-
-# ========================================
-# 0. Load and clean data
-# ========================================
-
-cleaner = ESSDataCleaner(DATA_FILENAME)
-df_clean = cleaner.full_clean()
 
 # ========================================
 # 1. Variables
@@ -22,47 +13,50 @@ predictors = ['agea', 'hinctnta', 'edlvenl', 'edlvfenl', 'edlvmenl',
               'nwspol', 'netustm', 'vote', 'gndr']
 outcome = ['trstplt']
 
-continuous_vars = ['agea', 'nwspol', 'netustm', 'hinctnta', 'edlvenl', 'edlvfenl', 'edlvmenl']
-categorical_vars = ['vote', 'gndr'] 
+continuous_vars = ['agea', 'nwspol', 'netustm', 'hinctnta',
+                   'edlvenl', 'edlvfenl', 'edlvmenl']
+categorical_vars = ['vote', 'gndr']
 
 # ========================================
 # 2. Transform skewed predictors
 # ========================================
 
-df_clean['nwspol_log'] = np.log1p(df_clean['nwspol'])  # log(1 + x) to reduce skew
+# log(1 + x) to reduce skew
+DATASET.set_column('nwspol_log', np.log1p(DATASET.get_columns('nwspol')))
 
 # Update predictors for modeling
-predictors_mod = ['agea', 'nwspol_log', 'netustm', 'hinctnta', 
+predictors_mod = ['agea', 'nwspol_log', 'netustm', 'hinctnta',
                   'edlvenl', 'edlvfenl', 'edlvmenl', 'vote', 'gndr']
 
 # ========================================
-# 3. Checking for Linearity 
+# 3. Checking for Linearity
 # ========================================
 
-check_linearity(df_clean, continuous_vars, 'trstplt')
+check_linearity(DATASET.data, continuous_vars, 'trstplt')
 
 # ========================================
-# 4. Checking for Multicollinearity 
+# 4. Checking for Multicollinearity
 # ========================================
 
-vif_table = VIF_check(df_clean, continuous_vars + ['nwspol_log'])
+vif_table = VIF_check(DATASET.data, continuous_vars + ['nwspol_log'])
 print(vif_table)
 
 # ========================================
 # 5. Fitting OLS with robust SE (HC3)
 # ========================================
 
-X = df_clean[predictors_mod]
+X = DATASET.get_columns(predictors_mod)
 X = sm.add_constant(X)
 
-y_trstplt = df_clean['trstplt']
+y_trstplt = DATASET.get_columns('trstplt')
 
 # Fit models with HC3 robust standard errors
 model_trstplt = sm.OLS(y_trstplt, X).fit(cov_type='HC3')
 
-#HC3 becuase we are dealing with social sciences
-#The Q-Q plot did not look promising, although we are dealing wiht a large dataset
-#Just validates the p-values, better safe than sorry policy 
+# HC3 becuase we are dealing with social sciences
+# The Q-Q plot did not look promising,
+# although we are dealing wiht a large dataset
+# Just validates the p-values, better safe than sorry policy
 
 
 print(model_trstplt.summary())

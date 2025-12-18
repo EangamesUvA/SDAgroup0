@@ -153,8 +153,8 @@ def show_plots(data, regression):
     plot_results(data, regression)
 
 
-def main():
-    data = Generator(SELECTED_FEATURES, DEP_VAR)
+def main(indep_vars, dep_vars):
+    data = Generator(indep_vars, dep_vars)
 
     regression = Regressor(data)
 
@@ -162,4 +162,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(SELECETED_FEATURES, DEP_VAR)
+    main(INDEP_VAR, DEP_VAR)
