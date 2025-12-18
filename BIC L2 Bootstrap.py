@@ -42,7 +42,7 @@ def plot_k_BIC(data_frame, x, y):
     selected_features = []
     features_at_step = []
     remaining_features = x.copy()
-    y_values = DATASET.get_columns(y)
+    y_values = DATASET.get_columns(y).to_numpy().ravel()
     list_k = []
     list_BIC = []
 

@@ -1,15 +1,7 @@
+from dataset import *
 import itertools
 import pandas as pd
 import statsmodels.api as sm
-from cleaning_file import *
-
-DATA_FILENAME = "data/all_var_set.csv"
-
-# ========================================
-# 0. Load and clean data
-# ========================================
-cleaner = ESSDataCleaner(DATA_FILENAME)
-df_clean = cleaner.full_clean()
 
 
 def basic_feature_selector(df, predictors, outcomes, p_threshold=0.05):
@@ -90,7 +82,7 @@ predictors = [
 
 outcomes = ['trstplt']
 
-results = basic_feature_selector(df_clean, predictors, outcomes)
+results = basic_feature_selector(DATASET.data, predictors, outcomes)
 
 # Access selected features and models for trstplt
 selected_features_trstplt, model_trstplt = results['trstplt']

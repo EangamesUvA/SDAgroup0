@@ -130,7 +130,7 @@ class Data:
 
     def get_columns(self, columns):
         if not isinstance(columns, list):
-            columns = list(columns)
+            columns = [columns]
         existing = [c for c in columns if c in self.data.columns]
         missing = [c for c in columns if c not in self.data.columns]
 
@@ -142,8 +142,8 @@ class Data:
         return df
 
     def get_interaction_from_name(self, name):
-        a, b, _ = name.split("_")
-        return self.data[a] * self.data[b]
+        sp_name = name.split("_")
+        return self.data[sp_name[0]] * self.data[sp_name[1]]
 
     def set_column(self, column, value):
         self.data[column] = value
