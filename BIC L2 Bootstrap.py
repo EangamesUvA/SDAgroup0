@@ -20,9 +20,7 @@ interaction_cols = [
     for a, b in combinations(INDEP_VAR, 2)
 ]
 
-for (a, b), name in zip(combinations(INDEP_VAR, 2), interaction_cols):
-    DATASET.set_column(name, DATASET.get_mult_2_columns(a, b))
-
+DATASET.set_columns_interaction(interaction_cols)
 all_x_cols = INDEP_VAR + interaction_cols
 DATASET.set_columns_to_float(all_x_cols)
 
