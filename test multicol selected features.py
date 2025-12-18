@@ -1,3 +1,4 @@
+from test_ols import VIF_check
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,6 +11,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import GridSearchCV
 from itertools import combinations
 from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
 
 
 DATA_FILENAME = "data/allvariables.csv"
@@ -92,8 +94,8 @@ independent_var = {
 }
 
 dependent_var = {
-    "trstplc": 'trust in the police',
-    "trstplt": 'trust in politicians',
+    "trstplt": 'trust in politicians'
+    
 }
 
 # Replace missing codes
@@ -102,118 +104,30 @@ df.replace(missing_codes, np.nan, inplace=True)
 # Drop rows with NaNs
 df_clean = df.dropna(subset=list(missing_codes.keys())).copy()
 
+print(df_clean.shape)
 
 list_independent_var = list(independent_var.keys())
+unique_pairs = list(combinations(list_independent_var,2))
+
+interaction_cols = [
+    f"{a}_{b}_interaction"
+    for a, b in combinations(list_independent_var, 2)
+]
+
+for (a, b), name in zip(combinations(list_independent_var, 2), interaction_cols):
+    df_clean[name] = df_clean[a] * df_clean[b]
+
+all_x_cols = list_independent_var + interaction_cols
+df_clean[all_x_cols] = df_clean[all_x_cols].astype(float)
 
 
+vif = VIF_check(df_clean, predictors=['stfgov', 
+                                      'ppltrst_pplhlp_interaction',
+                                       'agea_polintr_interaction', 
+                                       'agea_stfeco_interaction', 
+                                       'vote_agea_interaction',
+                                       'stfeco_stfgov_interaction',
+                                       'vote_edlvenl_interaction'
+                                       ])
 
-def log_likelihood(y_true, y_pred):
-    n = len(y_true)
-    residuals = y_true-y_pred
-    sigma2 = np.sum(residuals**2)/n
-    logL = (-n/2) * np.log(2*np.pi*sigma2) - (1/(2*sigma2)) * np.sum(residuals**2)
-    return logL
-
-def calculate_BIC(k,n,logL):
-    return k * np.log(n) - 2 * logL
-
-
-def plot_k_BIC(data_frame, x,y):
-    selected_features = []
-    features_at_step = []
-    remaining_features = x.copy()
-    y_values = df_clean[y]
-    list_k = []
-    list_BIC = []
-
-    while remaining_features:
-        dict_BIC = {}
-        for feature in remaining_features:
-            test_feature = selected_features + [feature]
-            x_test = data_frame[test_feature]
-            model = LinearRegression()
-            model.fit(x_test,y_values)
-            y_pred = model.predict(x_test)
-
-            logL = log_likelihood(y_values,y_pred)
-            k = len(test_feature)
-            n = len(y_values)
-            BIC = calculate_BIC(k,n,logL)
-            dict_BIC[feature] = BIC
-        
-        feature_min_BIC = min(dict_BIC, key = dict_BIC.get)
-        min_BIC_score = dict_BIC[feature_min_BIC]
-        selected_features.append(feature_min_BIC)
-        remaining_features.remove(feature_min_BIC)
-        list_BIC.append(min_BIC_score)
-        list_k.append(len(selected_features))
-        features_at_step.append(selected_features.copy())
-    
-    min_index = np.argmin(list_BIC)
-    min_k = list_k[min_index]
-    features_minimum = features_at_step[min_index]
-
-    return list_k, list_BIC, min_k, features_minimum
-
-X = list_independent_var
-Y_police = 'trstplc'
-Y_politicians = 'trstplt'
-data_frame = df_clean
-
-k_police, BIC_police, min_k_police, min_features_police= plot_k_BIC(data_frame,X,Y_police)
-k_politicians, BIC_politicians, min_k_politicians, min_features_politicians  = plot_k_BIC(data_frame,X,Y_politicians)
-
-print(f'the selected features for police are {min_features_police}')
-print(f'the selected features for politicians are{min_features_politicians}')
-
-plt.figure()
-plt.plot(k_police, BIC_police)
-plt.axvline(min_k_police, color = 'r',label = f'min BIC k = {min_k_police}')
-plt.xlabel('k')
-plt.ylabel('BIC')
-plt.title('BIC score for k features outcome trust in police')
-plt.legend()
-
-plt.figure()
-plt.plot(k_politicians, BIC_politicians)
-plt.axvline(min_k_politicians, color = 'r', label = f'min BIC k = {min_k_politicians}')
-plt.xlabel('k')
-plt.ylabel('BIC')
-plt.title('BIC score for k features outcome trust in politicians')
-plt.legend()
-
-all_x_cols = list(set(min_features_police + min_features_politicians))
-
-# splits the data into training and testing data
-X_var_train, X_var_test, Y_var_train, Y_var_test = train_test_split(df_clean[all_x_cols],df_clean[dependent_var.keys()],test_size=0.3, random_state=42)
-
-# scales the data so higher absolute numbers like income don't dominate the cost function
-scaler = StandardScaler()
-X_var_train_scaled = scaler.fit_transform(X_var_train)
-X_var_test_scaled = scaler.transform(X_var_test)
-
-# create multiple values for alpha (lambda) on different scales (log)
-alphas = np.logspace(-3,3,7)
-dict_alpha = {'alpha': alphas}
-
-# use a grid search to test different alpha's and see which one predicts the "unseen" data best
-grid = GridSearchCV(Ridge(), dict_alpha,scoring = 'neg_mean_squared_error', cv = 5, n_jobs=-1)
-
-grid.fit(X_var_train_scaled, Y_var_train)
-
-best_alpha = grid.best_params_['alpha']
-print(f' the best alpha is {best_alpha}')
-
-# training the model with the best alpha
-ridge_model = Ridge(alpha=best_alpha)
-ridge_model.fit(X_var_train_scaled, Y_var_train)
-
-# predicted Y based on unseen test X 
-Y_pred = ridge_model.predict(X_var_test_scaled)
-
-# evaluating performance of the model
-rmse = np.sqrt(mean_squared_error(Y_var_test, Y_pred))
-r2 = r2_score(Y_var_test,Y_pred)
-print(f'the rmse is {rmse}, the r-squared is {r2}')
-print(len(df_clean))
-plt.show()
+print(vif)
