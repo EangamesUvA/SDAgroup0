@@ -5,16 +5,20 @@ import matplotlib.pyplot as plt
 # Box Plots
 # ------------------------------
 
-def box_plots(indep_vars, dep_vars):
-    for indep in indep_vars:
+def plot_boxplots(independent_vars, dependent_vars):
+    """
+    Create box plots for each dependent variable
+    grouped by each independent variable.
+    """
+    for indep in independent_vars:
         indep_label = MAPPING[indep]
-        for dep in dep_vars:
+
+        for dep in dependent_vars:
             dep_label = MAPPING[dep]
 
-            plt.figure(figsize=(10, 5))
             DATASET.data.boxplot(column=dep, by=indep)
             plt.title(f"{dep_label} by {indep_label}")
-            plt.suptitle("")  # remove default subtitle
+            plt.suptitle("")  # remove pandas default title
             plt.xlabel(indep_label)
             plt.ylabel(dep_label)
             plt.xticks(rotation=45)
@@ -28,9 +32,11 @@ def box_plots(indep_vars, dep_vars):
 # ------------------------------
 
 def plot_trstplt_histogram():
+    """
+    Plot histogram of trust in politicians.
+    """
     trstplt = DATASET.data["trstplt"]
 
-    plt.figure()
     plt.hist(trstplt)
     plt.xlabel("Trust in politicians (trstplt)")
     plt.ylabel("Frequency")
@@ -44,5 +50,9 @@ def plot_trstplt_histogram():
 # ------------------------------
 
 if __name__ == "__main__":
-    box_plots(INDEP_VAR, DEP_VAR)
+
+    # Box plots (recommended: categorical independents only)
+    plot_boxplots(INDEP_VAR, DEP_VAR)
+
+    # Histogram
     plot_trstplt_histogram()
