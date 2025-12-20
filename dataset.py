@@ -180,9 +180,7 @@ class Data:
 DATASET = Data(FN_DATASET)
 
 INDEP_VAR = [
-    "aesfdrk",
     "agea",
-    "crmvct",
     "edlvenl",
     "edlvfenl",
     "edlvmenl",
@@ -198,9 +196,7 @@ INDEP_VAR = [
     "stfeco",
     "stfgov",
     "stflife",
-    "trplcmw",
-    "trplcnt",
-    "vote",
+    "vote"
 ]
 
 DEP_VAR = [
