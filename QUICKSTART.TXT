@@ -1,0 +1,58 @@
+# GROUP 0 
+
+## Overview
+
+Research Project: Building a predictor model for political trust. The project follows the following pipline:
+
+1. **Data Loading & Cleaning**  
+   Raw data is processed and structured in `data/dataset_helper.py`. Dictionaries and cleaned datasets are managed here.
+
+2. **Exploratory Data Analysis (EDA) & Visualization**  
+   Initial exploration and visualizations are in `visualization/visualize_data.py`.
+
+3. **Baseline Modeling**  
+   A baseline Ordinary Least Squares (OLS) regression is implemented in `models/baseline_ols.py`.Functions for OLS assumptions testing are found in:
+   - `models/test_ols_assumptions.py`
+
+4. **Feature Selection & Regularization**  
+   Feature selection using BIC-guided L2 regularized bootstrapping and a basic feature selector is implemented in:
+   - `models/bic_l2_bootstrap.py`
+   - `models/feature_selector.py`
+
+5. **Diagnostics**  
+   Statistical assumption tests and multicollinearity checks:
+   - `models/test_ols_assumptions.py`
+   - `models/multicollinearity.py`
+
+6. **Advanced Modeling**  
+   Black-box models (Random Forest) are implemented in:
+   - `models/random_forest.py`
+  Output plots are saved to the `graphs/` folder
+
+7. **Testing Suite**  
+   Automated tests for code integrity are in `tests/test_suite.py`.
+
+---
+##Installing dependencies 
+pip install -r requirements.txt
+
+## Running scripts from the project root 
+Important: Do not run scripts by clicking the file or using the path directly. Always use the -m module flag or the provided runner.
+
+Examples:
+
+python -m models.baseline_ols
+
+python -m models.bic_l2_bootstrap
+
+python -m visualization.visualize_data
+
+##TESTING 
+Run automated tests to ensure everything is functioning as expected:
+
+pytest tests/test_suite.py
+
+##NOTES
+All scripts assume execution from the project root.
+
+Plots generated in the black_box_random_forest file are saved in the graphs/ folder.
