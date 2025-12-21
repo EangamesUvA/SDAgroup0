@@ -1,3 +1,7 @@
+# ========================================
+# Imports
+# ========================================
+
 from data.dataset_helper import *
 from itertools import combinations
 from sklearn.linear_model import LinearRegression
@@ -13,6 +17,11 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
+# ==========================================
+# Feature engineering: interaction terms
+# ==========================================
+
+# Generate all pairwise interactions between independent variables
 unique_pairs = list(combinations(INDEP_VAR, 2))
 
 interaction_cols = [
@@ -20,12 +29,19 @@ interaction_cols = [
     for a, b in combinations(INDEP_VAR, 2)
 ]
 
+# Register interaction columns in dataset and enforce float type
 DATASET.set_columns_interaction(interaction_cols)
 all_x_cols = INDEP_VAR + interaction_cols
 DATASET.set_columns_to_float(all_x_cols)
 
+# ==========================================
+# Model selection utilities 
+# ==========================================
 
 def log_likelihood(y_true, y_pred):
+    """
+    Compute Gaussian log-likelihood for linear regression residuals.
+    """
     n = len(y_true)
     residuals = y_true - y_pred
     sigma2 = np.sum(residuals**2)/n
@@ -35,10 +51,22 @@ def log_likelihood(y_true, y_pred):
 
 
 def calculate_BIC(k, n, logL):
+    """
+    Bayesian Information Criterion (BIC).
+    """
     return k * np.log(n) - 2 * logL
 
 
 def plot_k_BIC(data_frame, x, y):
+    """
+    Forward feature selection using BIC minimization.
+
+    Returns:
+        list_k              : number of features at each step
+        list_BIC            : corresponding BIC scores
+        min_k               : optimal number of features
+        features_minimum    : selected feature set at min BIC
+    """
     selected_features = []
     features_at_step = []
     remaining_features = x.copy()
@@ -46,6 +74,7 @@ def plot_k_BIC(data_frame, x, y):
     list_k = []
     list_BIC = []
 
+    # Forward selection loop
     while remaining_features:
         dict_BIC = {}
         for feature in remaining_features:
@@ -61,6 +90,7 @@ def plot_k_BIC(data_frame, x, y):
             BIC = calculate_BIC(k, n, logL)
             dict_BIC[feature] = BIC
 
+        # Select feature with lowest BIC
         feature_min_BIC = min(dict_BIC, key=dict_BIC.get)
         min_BIC_score = dict_BIC[feature_min_BIC]
         print(f"{min_BIC_score}     ", end="\r")
@@ -70,12 +100,16 @@ def plot_k_BIC(data_frame, x, y):
         list_k.append(len(selected_features))
         features_at_step.append(selected_features.copy())
 
+    # Identify global minimum BIC
     min_index = np.argmin(list_BIC)
     min_k = list_k[min_index]
     features_minimum = features_at_step[min_index]
 
     return list_k, list_BIC, min_k, features_minimum
 
+# ==========================================
+# Run BIC feature selection
+# ==========================================
 
 X = all_x_cols
 Y_politicians = 'trstplt'
@@ -87,6 +121,10 @@ k_politicians, BIC_politicians, min_k_politicians, min_features_politicians = \
 
 print(f'the selected features for politicians are{min_features_politicians}')
 
+# ==========================================
+# Plot BIC vs number of features
+# ==========================================
+
 plt.figure()
 plt.plot(k_politicians, BIC_politicians)
 plt.axvline(min_k_politicians, color='r',
@@ -96,6 +134,9 @@ plt.ylabel('BIC')
 plt.title('BIC score for k features outcome trust in politicians')
 plt.legend()
 
+# ==========================================
+# Bootstrap Ridge regression on selected features 
+# ==========================================
 
 all_x_cols = min_features_politicians
 df_selected_features_outcome = \
@@ -104,8 +145,10 @@ df_selected_features_outcome = \
 list_rmse = []
 list_rsquared = []
 list_coef = []
+#number of bootstrap samples 
 N = 1000
 for i in range(N):
+    #Bootstrap sampling
     n = len(df_selected_features_outcome)
     bootstrap_sample = df_selected_features_outcome.sample(n=n, replace=True)
 
@@ -136,7 +179,7 @@ for i in range(N):
 
     best_alpha = grid.best_params_['alpha']
 
-    # training the model with the best alpha
+    # training ridge model with the best alpha
     ridge_model = Ridge(alpha=best_alpha)
     ridge_model.fit(X_var_train_scaled, Y_var_train)
 
@@ -155,6 +198,10 @@ for i in range(N):
 
 feature_names = min_features_politicians
 
+# ==========================================
+# Confidence Intervals
+# ==========================================
+
 coef_df = pd.DataFrame(list_coef, columns=feature_names)
 ci_df = pd.DataFrame({
     '2.5%': coef_df.quantile(0.025),
@@ -168,5 +215,9 @@ print(f'the 95% CI for rmse = {[np.percentile(list_rmse, 2.5),
                                 np.percentile(list_rmse, 97.5)]}, N = {N}')
 
 print(f'the 95% CI for the coefficients are {ci_df}, N = {N}')
+
+# ==========================================
+# Show Plots 
+# ==========================================
 
 plt.show()
