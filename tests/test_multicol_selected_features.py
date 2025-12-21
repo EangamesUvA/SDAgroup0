@@ -1,5 +1,5 @@
-from dataset import *
-from test_ols import VIF_check
+from data.dataset_helper import *
+from tests.test_ols import VIF_check
 import csv
 import numpy as np
 import matplotlib.pyplot as plt

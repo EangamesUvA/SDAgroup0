@@ -1,4 +1,4 @@
-from dataset import *
+from data.dataset_helper import *
 import matplotlib.pyplot as plt
 
 # ------------------------------

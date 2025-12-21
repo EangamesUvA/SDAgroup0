@@ -1,7 +1,7 @@
-from dataset import *
+from data.dataset_helper import *
 import pandas as pd
 import numpy as np
-from test_ols import *
+from tests.test_ols import *
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 

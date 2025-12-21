@@ -1,4 +1,4 @@
-from dataset import *
+from data.dataset_helper import *
 from itertools import combinations
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Ridge
